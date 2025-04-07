@@ -1,0 +1,937 @@
+[
+  {
+    "latitude": 14.551684,
+    "longitude": 121.051054,
+    "location": "BGC"
+  },
+  {
+    "latitude": 14.5497353,
+    "longitude": 121.0503752,
+    "location": "Wall-mounted dry stand pipe"
+  },
+  {
+    "latitude": 14.5505529,
+    "longitude": 121.049263,
+    "location": "Fire Hydrant - wall"
+  },
+  {
+    "latitude": 14.5516282,
+    "longitude": 121.0498643,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5516173,
+    "longitude": 121.0495669,
+    "location": "Fire Hydrant - wall"
+  },
+  {
+    "latitude": 14.5495742,
+    "longitude": 121.0453262,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5611361,
+    "longitude": 121.0586177,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5509519,
+    "longitude": 121.0465241,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5475131,
+    "longitude": 121.0524044,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5477227,
+    "longitude": 121.0522369,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5494395,
+    "longitude": 121.0460501,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5488223,
+    "longitude": 121.0445219,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5500723,
+    "longitude": 121.048696,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5535079,
+    "longitude": 121.0445021,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5532394,
+    "longitude": 121.0455072,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5418014,
+    "longitude": 121.0805095,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.540365,
+    "longitude": 121.0798731,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.5440387,
+    "longitude": 121.0798289,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.5450225,
+    "longitude": 121.0782382,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.5407275,
+    "longitude": 121.076684,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.524583,
+    "longitude": 121.073227,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.52467,
+    "longitude": 121.07168,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.532112,
+    "longitude": 121.080115,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.5278506,
+    "longitude": 121.0819026,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4780739,
+    "longitude": 121.0494825,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4740289,
+    "longitude": 121.0507739,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4772212,
+    "longitude": 121.0476874,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.479864,
+    "longitude": 121.0469366,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4798322,
+    "longitude": 121.0488392,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4807597,
+    "longitude": 121.061052,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4672415,
+    "longitude": 121.0564249,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4798001,
+    "longitude": 121.0593037,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4801162,
+    "longitude": 121.0542498,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4829068,
+    "longitude": 121.052084,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.486071,
+    "longitude": 121.0485873,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4847249,
+    "longitude": 121.0478537,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4858708,
+    "longitude": 121.0468003,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.472096,
+    "longitude": 121.0473923,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4953718,
+    "longitude": 121.0506959,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5014711,
+    "longitude": 121.0522168,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4922058,
+    "longitude": 121.0540994,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4935213,
+    "longitude": 121.0517608,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4969481,
+    "longitude": 121.0621164,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4866421,
+    "longitude": 121.0607395,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5047441,
+    "longitude": 121.0528844,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5039648,
+    "longitude": 121.0533542,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5034107,
+    "longitude": 121.0540271,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5014246,
+    "longitude": 121.0544956,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.503316,
+    "longitude": 121.05544,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5032192,
+    "longitude": 121.0565762,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5051189,
+    "longitude": 121.0583122,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5061359,
+    "longitude": 121.0578574,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5078737,
+    "longitude": 121.0586058,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5060166,
+    "longitude": 121.0547804,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5011913,
+    "longitude": 121.0639695,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4999822,
+    "longitude": 121.0635838,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4980916,
+    "longitude": 121.0591914,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5112564,
+    "longitude": 121.0620628,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5064867,
+    "longitude": 121.0656993,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5146865,
+    "longitude": 121.0717507,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5126441,
+    "longitude": 121.0704353,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5087224,
+    "longitude": 121.0669555,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5310283,
+    "longitude": 121.0720911,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5219533,
+    "longitude": 121.0751125,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5171466,
+    "longitude": 121.0754349,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5202238,
+    "longitude": 121.0724026,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5159081,
+    "longitude": 121.0709682,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.53828,
+    "longitude": 121.0818506,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5149963,
+    "longitude": 121.0576865,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.516405,
+    "longitude": 121.0578259,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5220284,
+    "longitude": 121.0556465,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5167958,
+    "longitude": 121.0562723,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5135979,
+    "longitude": 121.0551743,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5304631,
+    "longitude": 121.0388046,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5299842,
+    "longitude": 121.0355675,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5246518,
+    "longitude": 121.0410078,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5283577,
+    "longitude": 121.0426688,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5127371,
+    "longitude": 121.033778,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.513713,
+    "longitude": 121.0353665,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5142905,
+    "longitude": 121.0365422,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5148647,
+    "longitude": 121.0375112,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5160493,
+    "longitude": 121.0454514,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.514668,
+    "longitude": 121.0432625,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5160302,
+    "longitude": 121.0503862,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5140432,
+    "longitude": 121.0461333,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5141659,
+    "longitude": 121.0445531,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5117395,
+    "longitude": 121.0424342,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5128859,
+    "longitude": 121.0405209,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5142256,
+    "longitude": 121.0399845,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5114605,
+    "longitude": 121.0380115,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5084304,
+    "longitude": 121.0365349,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.5077916,
+    "longitude": 121.0379439,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5077838,
+    "longitude": 121.0379195,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5086087,
+    "longitude": 121.0428911,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.536253,
+    "longitude": 121.092589,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.5361838,
+    "longitude": 121.0923826,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5357579,
+    "longitude": 121.0916737,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5356288,
+    "longitude": 121.091572,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5528131,
+    "longitude": 121.0439316,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.513939,
+    "longitude": 121.0609927,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5162497,
+    "longitude": 121.061093,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5194649,
+    "longitude": 121.0553472,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5252292,
+    "longitude": 121.0556403,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5263147,
+    "longitude": 121.0567171,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5261285,
+    "longitude": 121.057792,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5265474,
+    "longitude": 121.058686,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5252057,
+    "longitude": 121.0599344,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.524201,
+    "longitude": 121.0578759,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5289777,
+    "longitude": 121.0564746,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5259693,
+    "longitude": 121.0553902,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.527018,
+    "longitude": 121.0717143,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5261605,
+    "longitude": 121.0694923,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5246873,
+    "longitude": 121.0716441,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5246847,
+    "longitude": 121.0765409,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5458175,
+    "longitude": 121.0489443,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5544879,
+    "longitude": 121.0468924,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5535245,
+    "longitude": 121.0481924,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5587423,
+    "longitude": 121.0542848,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5526307,
+    "longitude": 121.0519575,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5545219,
+    "longitude": 121.0479899,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5514195,
+    "longitude": 121.0571041,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5540143,
+    "longitude": 121.0461743,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5584204,
+    "longitude": 121.0564605,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.557223,
+    "longitude": 121.0588279,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.557436,
+    "longitude": 121.0537726,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5571265,
+    "longitude": 121.0534864,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5541558,
+    "longitude": 121.0492337,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5543531,
+    "longitude": 121.0450742,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5504849,
+    "longitude": 121.0531951,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5479748,
+    "longitude": 121.0475544,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.553648,
+    "longitude": 121.0475712,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5528608,
+    "longitude": 121.0570115,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5529367,
+    "longitude": 121.046334,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5512632,
+    "longitude": 121.0456352,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.552816,
+    "longitude": 121.0452926,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5539243,
+    "longitude": 121.0467252,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5559436,
+    "longitude": 121.0582313,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5582919,
+    "longitude": 121.0558726,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5417006,
+    "longitude": 121.0843392,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5407273,
+    "longitude": 121.0886163,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5444546,
+    "longitude": 121.0602492,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5485459,
+    "longitude": 121.0638421,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5484197,
+    "longitude": 121.0595083,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5567235,
+    "longitude": 121.0644818,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5212971,
+    "longitude": 121.0573478,
+    "location": "Fire Hydrant - pipe"
+  },
+  {
+    "latitude": 14.4894715,
+    "longitude": 121.0609654,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4934421,
+    "longitude": 121.0617265,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5658314,
+    "longitude": 121.0488948,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4790898,
+    "longitude": 121.0508019,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5127582,
+    "longitude": 121.0698757,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.533641,
+    "longitude": 121.0368633,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.536888,
+    "longitude": 121.0419264,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.53674,
+    "longitude": 121.0449976,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5612559,
+    "longitude": 121.0538703,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5608457,
+    "longitude": 121.0540125,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.554924,
+    "longitude": 121.0526834,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5486634,
+    "longitude": 121.0451049,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.548148,
+    "longitude": 121.0456252,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5486141,
+    "longitude": 121.0458197,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5476106,
+    "longitude": 121.0459082,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5486378,
+    "longitude": 121.0486169,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5581452,
+    "longitude": 121.0430496,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5563504,
+    "longitude": 121.060816,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.560346,
+    "longitude": 121.061229,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5592563,
+    "longitude": 121.0627045,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5081985,
+    "longitude": 121.0391115,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4761895,
+    "longitude": 121.0483948,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.5379592,
+    "longitude": 121.0976545,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5401418,
+    "longitude": 121.0963169,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5460791,
+    "longitude": 121.0648609,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5354265,
+    "longitude": 121.0677337,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5664587,
+    "longitude": 121.0495541,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5573612,
+    "longitude": 121.0657015,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5321402,
+    "longitude": 121.0815132,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.4970091,
+    "longitude": 121.0504109,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5467384,
+    "longitude": 121.0477671,
+    "location": "Unknown Location"
+  },
+  {
+    "latitude": 14.5534748,
+    "longitude": 121.0492029,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5288015,
+    "longitude": 121.0860588,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5468305,
+    "longitude": 121.0466512,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5493589,
+    "longitude": 121.0530156,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5493833,
+    "longitude": 121.0491135,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5593191,
+    "longitude": 121.056502,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5668299,
+    "longitude": 121.0522209,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5572521,
+    "longitude": 121.0428116,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5164418,
+    "longitude": 121.030676,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5103817,
+    "longitude": 121.0483879,
+    "location": "Fire Hydrant - pillar"
+  },
+  {
+    "latitude": 14.5362516,
+    "longitude": 121.0767707,
+    "location": "Fire Hydrant - pillar"
+  }
+]

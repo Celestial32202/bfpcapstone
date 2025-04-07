@@ -1,0 +1,363 @@
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.datatable-id-collumn {
+    max-width: 100px; /* Set max width */
+    overflow: hidden; /* Hide overflow text */
+}
+.datatable-name-collumn {
+    max-width: 100px; /* Set max width */
+    overflow: hidden; /* Hide overflow text */
+}
+.datatable-contact-collumn {
+    max-width: 70px; /* Set max width */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show "..." for long text */
+}
+.datatable-message-collumn {
+    max-width: 200px; /* Set max width */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show "..." for long text */
+}
+
+.datatable-timesub-collumn {
+    max-width: 60px; /* Set max width */
+    overflow: hidden; /* Hide overflow text */
+}
+.datatable-status-collumn {
+    max-width: 130px; /* Set max width */
+    overflow: hidden; /* Hide overflow text */
+}
+.datatable-connstats-collumn {
+    max-width: 70px; /* Set max width */
+    overflow: hidden; /* Hide overflow text */
+}
+.datatable-view-collumn {
+    max-width: 60px; /* Set max width */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* MAP BOX ADMIN INPUT LOCATION */
+#map {
+    width: 100%;       /* Full width of the parent container */
+    height: 700px;
+}
+
+.spinner {
+    width: 80px;
+    height: 80px;
+    border: 7px solid #4285f4;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spinner 0.7s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+/* ADD ACCOUNT FORM */
+w3l-mockup-form h1 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 500;
+    color: #3b3663;
+}
+.w3l-mockup-form h2 { /*H2 characters used inside the userpass box*/
+    display: inline-block;
+    font-size: 25px;
+    line-height: 35px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #fff;
+}
+.w3l-mockup-form .mb_number ,.name, .email, .password{ /*input box design name and email*/
+    outline: none;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: grey;
+    padding: 14px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    background: transparent;
+    border: 1px solid #e5e5e5;
+    transition: 0.3s all ease;
+}
+.w3l-mockup-form .reg-input-form {
+    display: flex;
+    gap: 10px; /* Add some space between the inputs */
+}
+
+.w3l-mockup-form .otp_box, .email_changepass { /*input box design in forgot_pass.php*/
+    outline: none;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #ffffff;
+    text-align: left;
+    padding: 14px 20px;
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    background: transparent;
+    border: 1px solid #e5e5e5;
+    transition: 0.3s all ease;
+}
+input[type="date"] {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by GX browser */
+    color: #999;
+}
+::-webkit-calendar-picker-indicator{
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.links_forg_pass{
+    margin-top:-15px;
+    margin-bottom: 15px;
+    display: flex; 
+    justify-content: space-between;
+}
+.links_forg_pass .links_change_email, .links_rst_otpcode, .rsnd_otpcode{
+    background: none; 
+    border: none; 
+    padding: 0; 
+    font: inherit;
+    cursor: pointer; 
+    text-decoration: none;
+    color: #00e1ff;
+}
+.w3l-mockup-form input:focus {/*userpass input box highlight color*/
+    border-color: #4e73df;
+}
+.w3l-mockup-form button { 
+    font-size: 18px;
+    width: 100%;
+    border: none;
+    padding: 14px 3px;
+    font-weight: 500;
+    transition: .3s ease;
+    -webkit-transition: .3s ease;
+    -moz-transition: .3s ease;
+    -ms-transition: .3s ease;
+    -o-transition: .3s ease;
+}
+/* .w3l-mockup-form button:hover { 
+    background: #51d6ffb6;
+} */
+.first_input_pass{
+    position: relative;
+    
+}
+.first_input_pass i{
+    position: absolute;
+    right: 17px;
+    top: 40%;
+    font-size: 1.2rem;
+    color: grey;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+.pass_container{
+    position: relative;
+}
+.guidance-text {
+    display: none;
+    position: absolute;
+    left: 1020px;
+    top: 0;
+    background-color: #be4b49;
+    border: 1px solid #9e3e3d;
+    padding: 15px;
+    width: 300px;
+    border-radius: 5px;
+  }
+  .guidance-arrow {
+    position: absolute;
+    right: -10px;
+    top: 10px;
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-right: 9px solid #be4b49;
+  }
+  
+  .guidance-arrow::after {
+    content: "";
+    position: absolute;
+    right: 1px;
+    top: -9px;
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-right: 9px solid #be4b49;
+  }
+  
+.pass_container .password, .confirm-password{
+    outline: none;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: grey;
+    text-align: left;
+    padding: 14px 20px;
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    background: transparent;
+    border: 1px solid #e5e5e5;
+    transition: 0.3s all ease;
+    padding-right: 55px;
+}
+.pass_matching{
+    display: flex;
+    align-items: center;
+    margin-top: -8px;
+    margin-bottom: 8px;
+    
+}
+.pass_matching .not_match{
+    color: #a6a6a6;
+    font-size: 18px;
+    display: none;
+    margin-right: 8px;
+}
+.match_or_not{
+    font-size: 18px;
+    font-weight: 400;
+    color: #a6a6a6;
+    display: none;
+}
+.pass_strngth_list .requirement-list-title{
+    color: #fff;
+}
+.requirement-list {
+    margin-top: 5px;
+}
+.requirement-list li {
+    font-size: .9rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+  .requirement-list li i {
+    width: 20px;
+    color: #fff;
+    /* color: #aaa; */
+    font-size: 0.6rem;
+}
+  .requirement-list li.valid i {
+    font-size: 1.2rem;
+    color: #999;
+    /* color: #4285F4; */
+}
+  .requirement-list span {
+    margin-left: 5px;
+    color: #fff;
+}
+  .requirement-list li.valid span {
+    color: #999;
+}
+.hidden {
+    display: none;
+}
+button[disabled]{
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.select-container {
+    position: relative;
+    width: 100%;
+}
+.branch-select-container {
+    position: relative;
+    width: 100%;
+}
+.form-select {
+    outline: none;
+    font-size: 16px;
+    color: grey;
+    padding: 14px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #e5e5e5;
+    background: transparent;
+    transition: 0.3s all ease;
+    appearance: none; /* Removes default browser styling */
+}
+
+.form-select:focus {
+    border-color: #4e73df;
+    box-shadow: none;
+}
+
+.select-container::after {
+    content: '\f078'; /* FontAwesome down arrow */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: grey;
+    pointer-events: none;
+}
+.branch-select-container::after {
+    content: '\f078'; /* FontAwesome down arrow */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: grey;
+    pointer-events: none;
+}
+#adminVideoContainer {
+    width: 100%; /* Make the container responsive */
+    max-width: 100%; /* Prevent overflowing */
+    overflow: hidden; /* Hide overflow */
+    display: flex; /* Center the video */
+    justify-content: center;
+    align-items: center;
+}
+
+#adminVideo {
+    width: 100%; /* Make video fill the container */
+    max-width: 100%; /* Prevent overflow */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional: Rounded corners */
+}
+#row-map {
+    width: 100%;   
+    height: 500px;
+}

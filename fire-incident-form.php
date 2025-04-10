@@ -96,7 +96,14 @@ include('includes/navbar.php');
     </div>
 </section>
 
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-auth.js"></script>
+
+<script src="assets/js/global.js"></script>
+<script src="assets/js/config.js"></script>
 <script src="assets/js/user-request.js"> </script>
+
 <?php
 include('includes/footer.php');
 include('includes/scripts.php');

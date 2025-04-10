@@ -48,7 +48,8 @@ ws.onmessage = async (event) => {
                 data.message,
                 data.report_status,
                 data.submitted_at,
-                data.gpsLocation
+                data.gpsLocation,
+                data.video_stream_meeting_id
             );
             updateUserStatus(data.userId, data.status);
             break;

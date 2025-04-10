@@ -1,3 +1,4 @@
+var meetingId = "";
 const ws = new WebSocket('wss://baranggay-magtanggol.online:8443');
 const config = {
     iceServers: [
@@ -6,7 +7,18 @@ const config = {
         }
     ]
 };
+const fetchMeetingRooms = async (_) => {
+    console.log("fetchMeetingRooms...");
+    var meetingRooms = await db.collection(meetingRef + meetingsDomain + "/" + roomRef).get();
+    console.log("total meetingRooms ->", meetingRooms.docs.length);
+    meetingRooms.docs.forEach(v => {
+        const d = v.data();
+        meetingId = d.meeting_id;
+    });
+    // console.log("meetingId ->", meetingId);
+}
 
+fetchMeetingRooms();
 
 let peerConnection;
 let currentUserId = localStorage.getItem("currentUserId");
@@ -63,7 +75,57 @@ ws.onmessage = async (event) => {
             myModal.show();
             currentUserId = data.userId;
             break;
-        
+        case "answer":
+            console.log("📩 Received WebRTC Answer. Setting Remote Description...");
+            if (peerConnection) {
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+                console.log("✅ Remote Description Set Successfully.");
+                } else {
+                    console.error("❌ peerConnection is NULL when setting remote description!");
+                }
+            break;
+        case "callEndedByAdmin":
+                console.log("🛑 Call ended by the admin.");
+                document.getElementById("info-spinner").style.display = "block";
+                stopUserVideoCall();
+                alert("Call has ended.");
+            break;
+        case "callEndedByServer":
+                console.log("🛑 Call ended by the server.");
+                document.getElementById("message-done").style.display = "block";
+                stopUserVideoCall();
+                alert("Call has ended.");
+            break;
+        case "callWindowReconnected":
+                console.log("🔄 Call was active, reconnecting...");
+                document.getElementById("message-reconnecting").style.display = "none";
+                await acceptCall();  
+            break;
+        case "adminCallDisconnected":
+                console.log("🔄 Call disconnected...");
+                stopUserVideoCall();
+                document.getElementById("info-spinner").style.display = "block";
+                document.getElementById("message-reconnecting").style.display = "none";
+            break;
+        case "adminCallReconnecting":
+                console.log("🔄 Call was active, reconnecting...");
+                stopUserVideoCall();
+                document.getElementById("message-reconnecting").style.display = "block";
+            break;
+        case "userCallReconnected":
+                console.log("🔄 Call was tite, reconnecting...");
+                document.getElementById("vid-stream").classList.toggle("d-none"); 
+                document.getElementById("report-form").style.display = "none"; 
+                document.getElementById("message-reconnecting").style.display = "none";
+                document.getElementById("user-reconnecting").style.display = "block";
+                reconnecting_countdown();
+            break;
+        case "userCallReconnecting":
+                console.log("🔄 Call was active, reconnecting...");
+                document.getElementById("vid-stream").classList.toggle("d-none"); 
+                document.getElementById("message-reconnecting").style.display = "block"; 
+                document.getElementById("report-form").style.display = "none"; 
+            break;
         case "reportUpdate":
                 document.getElementById("info-spinner").style.display = "none";
                 document.getElementById("report-form").style.display = "none"; 
@@ -85,6 +147,7 @@ ws.onmessage = async (event) => {
         default:
     }
 };
+
 document.getElementById("incidentForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent default form submission
 
@@ -110,6 +173,8 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
         formData.append("connection_id", currentUserId);
         formData.append("gps_location", gpsData); // ✅ Always store GPS or Error
 
+        console.log("incident-report meetingId ->", meetingId);
+
         fetch("forms/incident-report.php", {
             method: "POST",
             body: formData
@@ -121,6 +186,7 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
                 if (data.success) {
                     console.log("✅ Incident Report Submitted! ID:", data.incident_id, data.connection_id);
                     
+                    
                     ws.send(JSON.stringify({
                         type: "newIncidentReport",
                         userId: currentUserId,
@@ -131,7 +197,8 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
                         message: message,
                         gps_location: gpsData, // ✅ Send GPS or error to WebSocket
                         report_status: data.report_status,
-                        submitted_at: data.submitted_at
+                        submitted_at: data.submitted_at,
+                        video_stream_meeting_id: meetingId
                     }));
 
                     console.log("✅ Form Submitted! Waiting for Admin.");
@@ -180,6 +247,19 @@ function getLocation(callback) {
     );
 }
 
+function reconnecting_countdown(){
+    let countdown = 3;
+        const countdownElement = document.getElementById('countdown');
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown === 0) {
+                clearInterval(timer);
+                document.getElementById("user-reconnecting").style.display = "none";
+                acceptCall();
+            }
+        }, 1000);
+}
 async function acceptCall() {
     console.log("✅ User Accepted Call. Accessing Camera...");
     myModal.hide();
@@ -187,16 +267,85 @@ async function acceptCall() {
     document.getElementById("vid-spinner").style.display = "block"; 
 
     try {
+        let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        console.log("🎥 Camera Access Granted. Starting Call...");
+        
+        document.getElementById("userVideo").srcObject = stream;
         document.getElementById("info-spinner").style.display = "none"; 
         document.getElementById("vid-spinner").style.display = "none";
         document.getElementById("videoContainer").style.display = "block";
 
+        isStreaming = true;  // ✅ Mark streaming as active
+        // startMonitoring();  // ✅ Start monitoring
+
+        startUserVideoCall(stream, currentUserId);
     } catch (error) {
         console.error("❌ Camera/Microphone Access Failed:", error);
     }
+}
+async function startUserVideoCall(stream, userId) {
+    console.log("📡 Starting WebRTC Peer Connection...");
+    peerConnection = new RTCPeerConnection(config);
+
+    stream.getTracks().forEach(track => {
+        peerConnection.addTrack(track, stream);
+        console.log("🎥 Added Track:", track.kind);
+    });
+
+    peerConnection.onicecandidate = (event) => {
+        if (event.candidate) {
+            console.log("📤 Sending ICE Candidate to Server...");
+            ws.send(JSON.stringify({ 
+                type: "candidate", 
+                candidate: event.candidate, 
+                userId: userId  
+            }));
+        }
+    };
+
+    let offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(offer);
+    console.log("📤 Sending WebRTC Offer to Server...", offer);
+
     ws.send(JSON.stringify({ 
-        type: "acceptCall", 
-        meetingId: offer, 
+        type: "offer", 
+        offer: offer, 
         userId: userId  
     }));
+    ws.send(JSON.stringify({ 
+        type: "ongoingCalls", 
+        status: "active", 
+        userId: userId  
+    }));
+}
+function stopUserVideoCall() {
+    console.log("🛑 Stopping User Video Stream...");
+    // 🔴 Stop all media tracks
+    let videoElement = document.getElementById("userVideo");
+    if (videoElement.srcObject) {
+        videoElement.srcObject.getTracks().forEach(track => track.stop());
+    }
+    // 🔴 Hide video container
+    document.getElementById("videoContainer").style.display = "none";
+
+    // 🔴 Close WebRTC connection
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+}
+function endCall() {
+    console.log("❌ Ending Call...");
+    let videoElement = document.getElementById("userVideo");
+    if (videoElement.srcObject) {
+        videoElement.srcObject.getTracks().forEach(track => track.stop());
+    }
+    // 🔴 Hide video container
+    document.getElementById("videoContainer").style.display = "none";
+    ws.send(JSON.stringify({ type: "callEndedByUser", userId: currentUserId })); 
+
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
 }

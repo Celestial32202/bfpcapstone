@@ -223,14 +223,6 @@ class VideoCallServer implements MessageComponentInterface
                         }
                     }
                 }
-                // foreach ($this->adminConnections as $userId => $positions) {
-                //     // Send to HigherAdmin first
-                //     if (isset($positions['LowerAdmin'])) {
-                //         foreach ($positions['LowerAdmin'] as $conn) {
-                //             $conn->send(json_encode(['type' => 'updateAdminLoc',]));
-                //         }
-                //     }
-                // }
                 break;
 
             case 'callWindowConnected':
@@ -239,34 +231,27 @@ class VideoCallServer implements MessageComponentInterface
                 echo "✅ Call Window Registered for User $userId\n";
                 break;
 
-            case 'ongoingCalls':
-                $userId = $data['userId'];
-                $status = $data['status'];
-                if (!isset($this->ongoingCalls[$userId])) {
-                    $this->ongoingCalls[$userId] = $status;
-                }
-
-                break;
-            case 'offer':
+            case 'acceptCall':
                 $userId = $data['userId'];
                 echo "📩 Received WebRTC Offer from User $userId\n";
-
+                //sent message to user
                 if (isset($this->callWindows[$userId])) {
                     echo "📤 Forwarding WebRTC Offer to Call Window for User $userId\n";
                     $this->callWindows[$userId]->send(json_encode([
-                        'type' => 'offer',
-                        'offer' => $data['offer'],
+                        'type' => 'acceptedCall',
+                        'meetingId' => $data['meetingId'],
                         'userId' => $userId
                     ]));
                 }
-                if (isset($this->userConnections[$userId])) {
-                    echo "📤 Forwarding WebRTC Offer to Call Window for User $userId\n";
-                    $this->userConnections[$userId]->send(json_encode([
-                        'type' => 'offer',
-                        'offer' => $data['offer'],
-                        'userId' => $userId
-                    ]));
-                }
+                //sent message to call.php
+                // if (isset($this->userConnections[$userId])) {
+                //     echo "📤 Forwarding WebRTC Offer to Call Window for User $userId\n";
+                //     $this->userConnections[$userId]->send(json_encode([
+                //         'type' => 'offer',
+                //         'offer' => $data['offer'],
+                //         'userId' => $userId
+                //     ]));
+                // }
                 break;
             case 'answer':
                 $userId = $data['userId'];
@@ -280,43 +265,30 @@ class VideoCallServer implements MessageComponentInterface
                     ]));
                 }
                 break;
-            case 'candidate':
-                $userId = $data['userId'];
-                $candidate = $data['candidate'];
 
-                echo "📩 Received ICE Candidate from $userId\n";
-                if (isset($this->callWindows[$userId])) {
-                    echo "📤 Forwarding ICE Candidate to Call Window for User $userId\n";
-                    $this->callWindows[$userId]->send(json_encode([
-                        'type' => 'candidate',
-                        'candidate' => $candidate,
-                        'userId' => $userId
-                    ]));
-                }
-                break;
-            case 'callEndedByUser':
-                $userId = $data['userId'];
-                echo "✅ Call ended by user $userId\n";
-                unset($this->ongoingCalls[$userId]);
-                if (isset($this->callWindows[$userId])) {
-                    $this->callWindows[$userId]->send(json_encode([
-                        'type' => 'callEndedByUser', // call ended by user
-                        'userId' => $userId
-                    ]));
-                }
+            // case 'callEndedByUser':
+            //     $userId = $data['userId'];
+            //     echo "✅ Call ended by user $userId\n";
+            //     unset($this->ongoingCalls[$userId]);
+            //     if (isset($this->callWindows[$userId])) {
+            //         $this->callWindows[$userId]->send(json_encode([
+            //             'type' => 'callEndedByUser', // call ended by user
+            //             'userId' => $userId
+            //         ]));
+            //     }
 
-                break;
-            case 'callEndedByAdmin':
-                $userId = $data['userId'];
-                echo "✅ Call ended by admin $userId\n";
-                unset($this->ongoingCalls[$userId]);
-                if (isset($this->userConnections[$userId])) {
-                    $this->userConnections[$userId]->send(json_encode([
-                        'type' => 'callEndedByAdmin',
-                        'userId' => $userId
-                    ]));
-                }
-                break;
+            //     break;
+            // case 'callEndedByAdmin':
+            //     $userId = $data['userId'];
+            //     echo "✅ Call ended by admin $userId\n";
+            //     unset($this->ongoingCalls[$userId]);
+            //     if (isset($this->userConnections[$userId])) {
+            //         $this->userConnections[$userId]->send(json_encode([
+            //             'type' => 'callEndedByAdmin',
+            //             'userId' => $userId
+            //         ]));
+            //     }
+            //     break;
             case 'userConnectionMonitoring':
                 $userId = $data['userId'];
                 if (isset($this->userConnections[$userId]) && $this->userConnections[$userId] !== $from) {
@@ -450,12 +422,6 @@ class VideoCallServer implements MessageComponentInterface
                 if (!isset($this->ongoingCalls[$userId])) {
                     return;
                 }
-                if (isset($this->userConnections[$userId])) {
-                    $this->userConnections[$userId]->send(json_encode([
-                        "type" => "adminCallReconnecting",
-                        'userId' => $userId
-                    ]));
-                }
                 $timer = Loop::addPeriodicTimer(1, function () use ($userId, &$timer, &$elapsedTime) {
                     $elapsedTime++;
                     if (isset($this->callWindows[$userId])) {
@@ -514,19 +480,6 @@ class VideoCallServer implements MessageComponentInterface
                     }
                     $stmt->close();
                     return;
-                }
-
-                if (isset($this->userConnections[$userId])) {
-                    $this->userConnections[$userId]->send(json_encode([
-                        "type" => "userCallReconnecting",
-                        'userId' => $userId
-                    ]));
-                }
-                if (isset($this->callWindows[$userId])) {
-                    $this->callWindows[$userId]->send(json_encode([
-                        "type" => "userCallReconnecting",
-                        'userId' => $userId
-                    ]));
                 }
                 $timer = Loop::addPeriodicTimer(1, function () use ($userId, &$timer, &$elapsedTime) {
                     $elapsedTime++;

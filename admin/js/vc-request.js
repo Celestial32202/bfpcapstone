@@ -182,7 +182,6 @@ function displayIncidentReport(userId, incident_id, reporter_name, contact_numbe
     tableBody.prepend(newRow); // ✅ Insert new report at the top
     }
 }
-
 // 📞 Admin Requests Video Call
 function requestVideoCall(userId) {
     console.log("📞 Sending Video Call Request to User:", userId);

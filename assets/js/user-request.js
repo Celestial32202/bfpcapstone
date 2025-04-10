@@ -63,57 +63,7 @@ ws.onmessage = async (event) => {
             myModal.show();
             currentUserId = data.userId;
             break;
-        case "answer":
-            console.log("📩 Received WebRTC Answer. Setting Remote Description...");
-            if (peerConnection) {
-                await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
-                console.log("✅ Remote Description Set Successfully.");
-                } else {
-                    console.error("❌ peerConnection is NULL when setting remote description!");
-                }
-            break;
-        case "callEndedByAdmin":
-                console.log("🛑 Call ended by the admin.");
-                document.getElementById("info-spinner").style.display = "block";
-                stopUserVideoCall();
-                alert("Call has ended.");
-            break;
-        case "callEndedByServer":
-                console.log("🛑 Call ended by the server.");
-                document.getElementById("message-done").style.display = "block";
-                stopUserVideoCall();
-                alert("Call has ended.");
-            break;
-        case "callWindowReconnected":
-                console.log("🔄 Call was active, reconnecting...");
-                document.getElementById("message-reconnecting").style.display = "none";
-                await acceptCall();  
-            break;
-        case "adminCallDisconnected":
-                console.log("🔄 Call disconnected...");
-                stopUserVideoCall();
-                document.getElementById("info-spinner").style.display = "block";
-                document.getElementById("message-reconnecting").style.display = "none";
-            break;
-        case "adminCallReconnecting":
-                console.log("🔄 Call was active, reconnecting...");
-                stopUserVideoCall();
-                document.getElementById("message-reconnecting").style.display = "block";
-            break;
-        case "userCallReconnected":
-                console.log("🔄 Call was tite, reconnecting...");
-                document.getElementById("vid-stream").classList.toggle("d-none"); 
-                document.getElementById("report-form").style.display = "none"; 
-                document.getElementById("message-reconnecting").style.display = "none";
-                document.getElementById("user-reconnecting").style.display = "block";
-                reconnecting_countdown();
-            break;
-        case "userCallReconnecting":
-                console.log("🔄 Call was active, reconnecting...");
-                document.getElementById("vid-stream").classList.toggle("d-none"); 
-                document.getElementById("message-reconnecting").style.display = "block"; 
-                document.getElementById("report-form").style.display = "none"; 
-            break;
+        
         case "reportUpdate":
                 document.getElementById("info-spinner").style.display = "none";
                 document.getElementById("report-form").style.display = "none"; 
@@ -230,19 +180,6 @@ function getLocation(callback) {
     );
 }
 
-function reconnecting_countdown(){
-    let countdown = 3;
-        const countdownElement = document.getElementById('countdown');
-        const timer = setInterval(() => {
-            countdown--;
-            countdownElement.textContent = countdown;
-            if (countdown === 0) {
-                clearInterval(timer);
-                document.getElementById("user-reconnecting").style.display = "none";
-                acceptCall();
-            }
-        }, 1000);
-}
 async function acceptCall() {
     console.log("✅ User Accepted Call. Accessing Camera...");
     myModal.hide();
@@ -250,85 +187,16 @@ async function acceptCall() {
     document.getElementById("vid-spinner").style.display = "block"; 
 
     try {
-        let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        console.log("🎥 Camera Access Granted. Starting Call...");
-        
-        document.getElementById("userVideo").srcObject = stream;
         document.getElementById("info-spinner").style.display = "none"; 
         document.getElementById("vid-spinner").style.display = "none";
         document.getElementById("videoContainer").style.display = "block";
 
-        isStreaming = true;  // ✅ Mark streaming as active
-        // startMonitoring();  // ✅ Start monitoring
-
-        startUserVideoCall(stream, currentUserId);
     } catch (error) {
         console.error("❌ Camera/Microphone Access Failed:", error);
     }
-}
-async function startUserVideoCall(stream, userId) {
-    console.log("📡 Starting WebRTC Peer Connection...");
-    peerConnection = new RTCPeerConnection(config);
-
-    stream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, stream);
-        console.log("🎥 Added Track:", track.kind);
-    });
-
-    peerConnection.onicecandidate = (event) => {
-        if (event.candidate) {
-            console.log("📤 Sending ICE Candidate to Server...");
-            ws.send(JSON.stringify({ 
-                type: "candidate", 
-                candidate: event.candidate, 
-                userId: userId  
-            }));
-        }
-    };
-
-    let offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offer);
-    console.log("📤 Sending WebRTC Offer to Server...", offer);
-
     ws.send(JSON.stringify({ 
-        type: "offer", 
-        offer: offer, 
+        type: "acceptCall", 
+        meetingId: offer, 
         userId: userId  
     }));
-    ws.send(JSON.stringify({ 
-        type: "ongoingCalls", 
-        status: "active", 
-        userId: userId  
-    }));
-}
-function stopUserVideoCall() {
-    console.log("🛑 Stopping User Video Stream...");
-    // 🔴 Stop all media tracks
-    let videoElement = document.getElementById("userVideo");
-    if (videoElement.srcObject) {
-        videoElement.srcObject.getTracks().forEach(track => track.stop());
-    }
-    // 🔴 Hide video container
-    document.getElementById("videoContainer").style.display = "none";
-
-    // 🔴 Close WebRTC connection
-    if (peerConnection) {
-        peerConnection.close();
-        peerConnection = null;
-    }
-}
-function endCall() {
-    console.log("❌ Ending Call...");
-    let videoElement = document.getElementById("userVideo");
-    if (videoElement.srcObject) {
-        videoElement.srcObject.getTracks().forEach(track => track.stop());
-    }
-    // 🔴 Hide video container
-    document.getElementById("videoContainer").style.display = "none";
-    ws.send(JSON.stringify({ type: "callEndedByUser", userId: currentUserId })); 
-
-    if (peerConnection) {
-        peerConnection.close();
-        peerConnection = null;
-    }
 }

@@ -270,7 +270,7 @@ async function acceptCall() {
         let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         console.log("🎥 Camera Access Granted. Starting Call...");
         
-        document.getElementById("userVideo").srcObject = stream;
+        // document.getElementById("userVideo").srcObject = stream;
         document.getElementById("info-spinner").style.display = "none"; 
         document.getElementById("vid-spinner").style.display = "none";
         document.getElementById("videoContainer").style.display = "block";
@@ -285,27 +285,27 @@ async function acceptCall() {
 }
 async function startUserVideoCall(stream, userId) {
     console.log("📡 Starting WebRTC Peer Connection...");
-    peerConnection = new RTCPeerConnection(config);
+    // peerConnection = new RTCPeerConnection(config);
 
-    stream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, stream);
-        console.log("🎥 Added Track:", track.kind);
-    });
+    // stream.getTracks().forEach(track => {
+    //     peerConnection.addTrack(track, stream);
+    //     console.log("🎥 Added Track:", track.kind);
+    // });
 
-    peerConnection.onicecandidate = (event) => {
-        if (event.candidate) {
-            console.log("📤 Sending ICE Candidate to Server...");
-            ws.send(JSON.stringify({ 
-                type: "candidate", 
-                candidate: event.candidate, 
-                userId: userId  
-            }));
-        }
-    };
+    // peerConnection.onicecandidate = (event) => {
+    //     if (event.candidate) {
+    //         console.log("📤 Sending ICE Candidate to Server...");
+    //         ws.send(JSON.stringify({ 
+    //             type: "candidate", 
+    //             candidate: event.candidate, 
+    //             userId: userId  
+    //         }));
+    //     }
+    // };
 
-    let offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offer);
-    console.log("📤 Sending WebRTC Offer to Server...", offer);
+    // let offer = await peerConnection.createOffer();
+    // await peerConnection.setLocalDescription(offer);
+    // console.log("📤 Sending WebRTC Offer to Server...", offer);
 
     ws.send(JSON.stringify({ 
         type: "offer", 
@@ -321,10 +321,10 @@ async function startUserVideoCall(stream, userId) {
 function stopUserVideoCall() {
     console.log("🛑 Stopping User Video Stream...");
     // 🔴 Stop all media tracks
-    let videoElement = document.getElementById("userVideo");
-    if (videoElement.srcObject) {
-        videoElement.srcObject.getTracks().forEach(track => track.stop());
-    }
+    // let videoElement = document.getElementById("userVideo");
+    // if (videoElement.srcObject) {
+    //     videoElement.srcObject.getTracks().forEach(track => track.stop());
+    // }
     // 🔴 Hide video container
     document.getElementById("videoContainer").style.display = "none";
 
@@ -336,10 +336,10 @@ function stopUserVideoCall() {
 }
 function endCall() {
     console.log("❌ Ending Call...");
-    let videoElement = document.getElementById("userVideo");
-    if (videoElement.srcObject) {
-        videoElement.srcObject.getTracks().forEach(track => track.stop());
-    }
+    // let videoElement = document.getElementById("userVideo");
+    // if (videoElement.srcObject) {
+    //     videoElement.srcObject.getTracks().forEach(track => track.stop());
+    // }
     // 🔴 Hide video container
     document.getElementById("videoContainer").style.display = "none";
     ws.send(JSON.stringify({ type: "callEndedByUser", userId: currentUserId })); 

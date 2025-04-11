@@ -186,7 +186,9 @@ function displayIncidentReport(userId, incident_id, reporter_name, contact_numbe
 // 📞 Admin Requests Video Call
 function requestVideoCall(userId) {
     console.log("📞 Sending Video Call Request to User:", userId);
-    let callUrl = `call.php?token=${userId}`;
+    // let callUrl = `call.php?token=${userId}`;
+    
+    window.open('https://baranggay-magtanggol-online.web.app/vs_admin_join_meeting.html');
     
     // Open the call window in a new tab
     window.open(callUrl, "_blank");

@@ -213,6 +213,8 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
         })
         .catch(error => console.error("❌ Fetch Error:", error));
     });
+
+    window.open('https://baranggay-magtanggol-online.web.app/vs_user_video_stream.html');
 });
 
 

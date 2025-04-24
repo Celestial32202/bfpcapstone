@@ -58,28 +58,28 @@ if (!isset($_SESSION['permissions']['manage_reports']) && $_SESSION['permissions
                         if (mysqli_num_rows($query_run) > 0) {
                             while ($row = mysqli_fetch_assoc($query_run)) {
                         ?>
-                        <tr>
-                            <td><?php echo $row['incident_id']; ?></td>
-                            <td><?php echo $row['reporter_name']; ?></td>
-                            <td><?php echo $row['contact_no']; ?></td>
-                            <td><?php echo $row['incident_location']; ?></td>
-                            <td><?php echo $row['info_message']; ?></td>
-                            <td><?php $submittedDate = $row['submitted_at'];
+                                <tr>
+                                    <td><?php echo $row['incident_id']; ?></td>
+                                    <td><?php echo $row['reporter_name']; ?></td>
+                                    <td><?php echo $row['contact_no']; ?></td>
+                                    <td><?php echo $row['incident_location']; ?></td>
+                                    <td><?php echo $row['info_message']; ?></td>
+                                    <td><?php $submittedDate = $row['submitted_at'];
                                         $dateTime = new DateTime($submittedDate);
                                         $date = $dateTime->format('F d, Y');
                                         $formattedDate = $dateTime->format('F d, Y');
                                         echo $formattedDate;;
 
                                         ?></td>
-                            <td><?php $submittedTime = $row['submitted_at'];
+                                    <td><?php $submittedTime = $row['submitted_at'];
                                         $dateTime = new DateTime($submittedTime);
                                         $time = $dateTime->format('H:i:s');
                                         $twelveHourTime = date("g:i a", strtotime($time));
                                         echo $twelveHourTime;
                                         ?></td>
-                            <td><?php echo $row['verified_by']; ?></td>
-                            <td><?php echo $row['verified_at']; ?></td>
-                        </tr>
+                                    <td><?php echo $row['verified_by']; ?></td>
+                                    <td><?php echo $row['verified_at']; ?></td>
+                                </tr>
                         <?php
                             }
                         } else {

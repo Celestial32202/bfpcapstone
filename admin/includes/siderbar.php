@@ -108,8 +108,9 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Options</h6>
-                <a class="collapse-item" href="#">Manage Admins</a>
-                <a class="collapse-item" href="add-admin-acc.php">Add Account</a>
+                <a class="collapse-item" href="add-admin-acc.php">Add New Account</a>
+                <a class="collapse-item" href="acc-management.php">Manage Accounts</a>
+                <a class="collapse-item" href="deleted-accs.php">Deleted Accounts</a>
             </div>
         </div>
     </li>

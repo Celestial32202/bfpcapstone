@@ -48,6 +48,119 @@
     white-space: nowrap; /* Prevent text wrapping */
 }
 
+/* acc-management tables css */
+.datatable-name-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-username-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-position-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-branch-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-contact-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-email-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+
+.datatable-verified-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+.datatable-verified-collumn i {
+    margin: 0 4px;
+    font-size: 1.1rem;
+    line-height: normal !important; /* prevent extra spacing */
+    vertical-align: middle;
+}
+.datatable-attempts-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+.datatable-attempts-collumn i {
+    margin: 0 3px;
+    font-size: 1.1rem;
+    line-height: normal !important; /* prevent extra spacing */
+    vertical-align: middle;
+}
+.datatable-locked-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+.datatable-locked-collumn i {
+    margin: 0 4px;
+    font-size: 1.1rem;
+    line-height: normal !important; /* prevent extra spacing */
+    vertical-align: middle;
+}
+.datatable-options-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+.datatable-options-collumn i {
+    margin: 0 4px;
+    font-size: 1.1rem;
+    line-height: normal !important; /* prevent extra spacing */
+    vertical-align: middle;
+}
+
+
+
+
+
+
+
 /* MAP BOX ADMIN INPUT LOCATION */
 #map {
     width: 100%;       /* Full width of the parent container */

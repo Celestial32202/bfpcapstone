@@ -11,7 +11,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 <?php include('includes/navbar.php'); ?>
 <!-- End of Topbar -->
 <?php
-require_once 'server/jwt_handler.php';
+
 if (!isset($_SESSION['permissions']['recieve_rescue_reports']) && $_SESSION['permissions']['recieve_rescue_reports'] != 1) {
     header("Location: dashboard.php");
     exit();

@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../../config.php';
-require_once '../server/jwt_handler.php';
+
 
 if (!isset($_GET['token'])) {
     $_SESSION['errors'] = "<div class='alert alert-danger'>No token provided.</div>";
@@ -63,28 +63,30 @@ if (isset($_POST['change_password'])) {
 
         // Hash new password
         $is_verified = 1;
+        $is_expired = 1;
+        $token_used = 0;
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $conn->prepare("UPDATE admin_creds SET password = ?, verified = ? WHERE email = ?");
+        $stmt = $conn->prepare("UPDATE admin_creds SET password = ?, verified = ?, expiredToken = ?, jwt_token = ? WHERE email = ?");
         if (!$stmt) {
             throw new Exception("Prepare statement failed: " . $conn->error);
         }
 
-        $stmt->bind_param("sis", $hashed_password, $is_verified, $email);
+        $stmt->bind_param("siiss", $hashed_password, $is_verified, $is_expired, $token_used, $email);
         if (!$stmt->execute()) {
             throw new Exception("Query execution failed: " . $stmt->error);
         }
-
-        // Blacklist old token
-        $stmt = $conn->prepare("DELETE FROM token_blacklist WHERE created_at < NOW() - INTERVAL 1 HOUR");
-        if (!$stmt->execute()) {
-            throw new Exception("Failed to clean token blacklist: " . $stmt->error);
+        $stmt->close();
+        // Delete the specific token used (if needed)
+        $stmt = $conn->prepare("DELETE FROM token_blacklist WHERE token = ?");
+        if (!$stmt) {
+            throw new Exception("Prepare statement for token deletion failed: " . $conn->error);
         }
-
-        $stmt = $conn->prepare("INSERT INTO token_blacklist (token) VALUES (?)");
-        $stmt->bind_param("s", $token);
+        $stmt->bind_param("s", $token); // Make sure $token is defined and holds the token string
         if (!$stmt->execute()) {
-            throw new Exception("Failed to blacklist token: " . $stmt->error);
+            throw new Exception("Failed to delete used token from blacklist: " . $stmt->error);
         }
+        $stmt->close();
+
 
         $_SESSION['info'] = "<div class='alert alert-success'>Your password has been changed. Now you can log in with your new password.</div>";
         header("Location: ../index.php");
@@ -202,136 +204,136 @@ function validatePasswordRequirements($password)
     </section>
     <script src="../../vendor/jquery/jquery.min.js"></script>
     <script>
-    $(document).ready(function(c) {
-        $('.alert-close').on('click', function(c) {
-            $('.main-mockup').fadeOut('slow', function(c) {
-                $('.main-mockup').remove();
+        $(document).ready(function(c) {
+            $('.alert-close').on('click', function(c) {
+                $('.main-mockup').fadeOut('slow', function(c) {
+                    $('.main-mockup').remove();
+                });
             });
         });
-    });
-    const passwordInput_old = document.getElementById("old_password");
-    const passwordInput = document.getElementById("password");
-    const passwordInput_2nd = document.getElementById("confirm-password");
-    const requirementList = document.querySelectorAll(".requirement-list li");
-    const eyeIcon = document.querySelector('i');
-    const hidden_Strngth_List = document.getElementById('pass_strngth_list');
-    const reg_btn = document.querySelector('.btn');
-    const not_match = document.querySelector(".not_match");
-    const match_or_not = document.querySelector(".match_or_not");
-    const updateIndicators = (requirements) => {
-        requirements.forEach((requirement, index) => {
-            const requirementItem = requirementList[index];
-            if (requirement) {
-                requirementItem.classList.add("valid");
-                requirementItem.firstElementChild.className = "fa-solid fa-check";
-            } else {
-                requirementItem.classList.remove("valid");
-                requirementItem.firstElementChild.className = "fa-solid fa-circle";
+        const passwordInput_old = document.getElementById("old_password");
+        const passwordInput = document.getElementById("password");
+        const passwordInput_2nd = document.getElementById("confirm-password");
+        const requirementList = document.querySelectorAll(".requirement-list li");
+        const eyeIcon = document.querySelector('i');
+        const hidden_Strngth_List = document.getElementById('pass_strngth_list');
+        const reg_btn = document.querySelector('.btn');
+        const not_match = document.querySelector(".not_match");
+        const match_or_not = document.querySelector(".match_or_not");
+        const updateIndicators = (requirements) => {
+            requirements.forEach((requirement, index) => {
+                const requirementItem = requirementList[index];
+                if (requirement) {
+                    requirementItem.classList.add("valid");
+                    requirementItem.firstElementChild.className = "fa-solid fa-check";
+                } else {
+                    requirementItem.classList.remove("valid");
+                    requirementItem.firstElementChild.className = "fa-solid fa-circle";
+                }
+            });
+        };
+        passwordInput.addEventListener("input", () => {
+            const password = passwordInput.value;
+
+            // Send an AJAX request to the server-side script
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", window.location.href, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    const requirements = response.requirements;
+                    updateIndicators(requirements);
+
+                    const allRequirementsMet = Object.values(requirements).every((requirement) => requirement);
+                    if (allRequirementsMet) {
+                        passwordInput_2nd.removeAttribute("disabled");
+                    } else {
+                        passwordInput_2nd.setAttribute("disabled", "disabled");
+                    }
+                }
+            };
+            xhr.send("password=" + encodeURIComponent(password));
+        });
+        passwordInput_2nd.addEventListener("input", () => {
+            if (passwordInput_2nd.value.trim() === '') {
+                match_or_not.innerText = "Confirm your password";
+                match_or_not.style.color = "#a6a6a6";
+                not_match.style.display = "block";
+                not_match.style.color = "#a6a6a6";
+            } else if (passwordInput.value !== passwordInput_2nd.value) {
+                match_or_not.innerText = "Password didn't matched";
+                not_match.style.display = "block";
+                not_match.style.color = "#D93025";
+                match_or_not.style.color = "#D93025";
+                reg_btn.setAttribute("disabled", "disabled");
+            } else if (passwordInput.value === passwordInput_2nd.value) {
+                match_or_not.innerText = "Password matched";
+                not_match.style.display = "none";
+                match_or_not.style.color = "#4070F4";
+                reg_btn.removeAttribute("disabled");
             }
         });
-    };
-    passwordInput.addEventListener("input", () => {
-        const password = passwordInput.value;
+        passwordInput_old.addEventListener('focus', showHiddenClass_old);
+        passwordInput.addEventListener('focus', showHiddenClass);
+        passwordInput_2nd.addEventListener('focus', showHiddenClass_2);
 
-        // Send an AJAX request to the server-side script
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", window.location.href, true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                const requirements = response.requirements;
-                updateIndicators(requirements);
+        function showHiddenClass_old() {
+            eyeIcon.classList.remove('hidden');
+            if (passwordInput_2nd.value.trim() !== '') {
+                not_match.style.display = "none";
+                match_or_not.style.display = "none";
+                match_or_not.innerText = "Confirm your password";
+                match_or_not.style.color = "#a6a6a6";
+                not_match.style.color = "#a6a6a6";
+                reg_btn.setAttribute("disabled", "disabled");
+            } else if (passwordInput_2nd.value.trim() === '') {
+                not_match.style.display = "none";
+                match_or_not.style.display = "none";
+            }
+        }
 
-                const allRequirementsMet = Object.values(requirements).every((requirement) => requirement);
-                if (allRequirementsMet) {
-                    passwordInput_2nd.removeAttribute("disabled");
-                } else {
-                    passwordInput_2nd.setAttribute("disabled", "disabled");
+        function showHiddenClass() {
+            hidden_Strngth_List.classList.remove('hidden');
+            eyeIcon.classList.remove('hidden');
+            if (passwordInput_2nd.value.trim() !== '') {
+                passwordInput_2nd.value = '';
+                not_match.style.display = "none";
+                match_or_not.style.display = "none";
+                match_or_not.innerText = "Confirm your password";
+                match_or_not.style.color = "#a6a6a6";
+                not_match.style.color = "#a6a6a6";
+                reg_btn.setAttribute("disabled", "disabled");
+            } else if (passwordInput_2nd.value.trim() === '') {
+                not_match.style.display = "none";
+                match_or_not.style.display = "none";
+            }
+        }
+
+        function showHiddenClass_2() {
+            hidden_Strngth_List.classList.add('hidden');
+            if (passwordInput_2nd.value.trim() === '') {
+                not_match.style.display = "block";
+                match_or_not.style.display = "block";
+            }
+        }
+        eyeIcon.addEventListener("click", () => {
+            passwordInput_old.type = passwordInput_old.type === "password" ? "text" : "password";
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+            passwordInput_2nd.type = passwordInput_2nd.type === "password" ? "text" : "password";
+            eyeIcon.className = `fa-solid fa-eye${passwordInput.type === "password" ? "" : "-slash"}`;
+        });
+        document.addEventListener('click', function(event) {
+            const click_Target = event.target;
+            if (click_Target !== passwordInput &&
+                click_Target !== eyeIcon &&
+                click_Target !== passwordInput_old &&
+                !hidden_Strngth_List.contains(click_Target)) {
+                if (passwordInput.value.trim() === '') {
+                    eyeIcon.classList.add('hidden');;
                 }
             }
-        };
-        xhr.send("password=" + encodeURIComponent(password));
-    });
-    passwordInput_2nd.addEventListener("input", () => {
-        if (passwordInput_2nd.value.trim() === '') {
-            match_or_not.innerText = "Confirm your password";
-            match_or_not.style.color = "#a6a6a6";
-            not_match.style.display = "block";
-            not_match.style.color = "#a6a6a6";
-        } else if (passwordInput.value !== passwordInput_2nd.value) {
-            match_or_not.innerText = "Password didn't matched";
-            not_match.style.display = "block";
-            not_match.style.color = "#D93025";
-            match_or_not.style.color = "#D93025";
-            reg_btn.setAttribute("disabled", "disabled");
-        } else if (passwordInput.value === passwordInput_2nd.value) {
-            match_or_not.innerText = "Password matched";
-            not_match.style.display = "none";
-            match_or_not.style.color = "#4070F4";
-            reg_btn.removeAttribute("disabled");
-        }
-    });
-    passwordInput_old.addEventListener('focus', showHiddenClass_old);
-    passwordInput.addEventListener('focus', showHiddenClass);
-    passwordInput_2nd.addEventListener('focus', showHiddenClass_2);
-
-    function showHiddenClass_old() {
-        eyeIcon.classList.remove('hidden');
-        if (passwordInput_2nd.value.trim() !== '') {
-            not_match.style.display = "none";
-            match_or_not.style.display = "none";
-            match_or_not.innerText = "Confirm your password";
-            match_or_not.style.color = "#a6a6a6";
-            not_match.style.color = "#a6a6a6";
-            reg_btn.setAttribute("disabled", "disabled");
-        } else if (passwordInput_2nd.value.trim() === '') {
-            not_match.style.display = "none";
-            match_or_not.style.display = "none";
-        }
-    }
-
-    function showHiddenClass() {
-        hidden_Strngth_List.classList.remove('hidden');
-        eyeIcon.classList.remove('hidden');
-        if (passwordInput_2nd.value.trim() !== '') {
-            passwordInput_2nd.value = '';
-            not_match.style.display = "none";
-            match_or_not.style.display = "none";
-            match_or_not.innerText = "Confirm your password";
-            match_or_not.style.color = "#a6a6a6";
-            not_match.style.color = "#a6a6a6";
-            reg_btn.setAttribute("disabled", "disabled");
-        } else if (passwordInput_2nd.value.trim() === '') {
-            not_match.style.display = "none";
-            match_or_not.style.display = "none";
-        }
-    }
-
-    function showHiddenClass_2() {
-        hidden_Strngth_List.classList.add('hidden');
-        if (passwordInput_2nd.value.trim() === '') {
-            not_match.style.display = "block";
-            match_or_not.style.display = "block";
-        }
-    }
-    eyeIcon.addEventListener("click", () => {
-        passwordInput_old.type = passwordInput_old.type === "password" ? "text" : "password";
-        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-        passwordInput_2nd.type = passwordInput_2nd.type === "password" ? "text" : "password";
-        eyeIcon.className = `fa-solid fa-eye${passwordInput.type === "password" ? "" : "-slash"}`;
-    });
-    document.addEventListener('click', function(event) {
-        const click_Target = event.target;
-        if (click_Target !== passwordInput &&
-            click_Target !== eyeIcon &&
-            click_Target !== passwordInput_old &&
-            !hidden_Strngth_List.contains(click_Target)) {
-            if (passwordInput.value.trim() === '') {
-                eyeIcon.classList.add('hidden');;
-            }
-        }
-    });
+        });
     </script>
 </body>
 

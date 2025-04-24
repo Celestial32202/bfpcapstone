@@ -2,7 +2,7 @@
 session_start();
 require_once 'email-sender.php';
 require_once '../../config.php'; // Ensures database connection file is included only once
-require_once '../server/jwt_handler.php';
+require_once '../configs/jwt_handler.php';
 if (!isset($_SESSION['permissions']['manage_accounts']) && $_SESSION['permissions']['manage_accounts'] != 1) {
     header("Location: dashboard.php");
     exit();
@@ -17,14 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mb_number = $conn->real_escape_string($_POST['mb_number']);
         $admin_pos = $conn->real_escape_string($_POST['position']);
         $branch = $conn->real_escape_string($_POST['branch']);
-
+        $username = strtolower($first_name . '.' . $last_name . rand(100, 999));
         // Modify branch based on position
         if ($admin_pos !== "Fire Officer" && $admin_pos !== "Fire Officer Supervisor") {
             $branch = $admin_pos; // Set branch to the same value as position
         }
         $password = $conn->real_escape_string($_POST['password']);
         $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $token = bin2hex(random_bytes(6));
         function generateAdminId($conn)
         {
             $count = 0;
@@ -50,9 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Assign permissions based on position
         $permissions = [];
         switch ($admin_pos) {
-            case 'Command Officer Head':
-                $permissions = ["main_dashboard" => 1, "manage_accounts" => 1, "edit_accounts" => 1, "manage_reports" => 1, "monitor_rescue" => 1];
-                break;
+            // case 'Command Officer Head':
+            //     $permissions = ["main_dashboard" => 1, "manage_accounts" => 1, "edit_accounts" => 1, "manage_reports" => 1, "monitor_rescue" => 1];
+            //     break;
             case 'Command Officer Staff':
                 $permissions = ["main_dashboard" => 1, "manage_accounts" => 1, "manage_reports" => 1, "monitor_rescue" => 1];
                 break;
@@ -85,56 +84,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../add-admin-acc.php");
             exit();
         }
-
-        // Insert new admin credentials
-        $stmt = $conn->prepare("INSERT INTO admin_creds (admin_id,
-                                                        first_name, 
-                                                        middle_name, 
-                                                        last_name, 
-                                                        email, 
-                                                        contact_number, 
-                                                        admin_position,
-                                                        branch, 
-                                                        password, 
-                                                        admin_permissions) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        if (!$stmt) {
-            throw new Exception("Prepare statement failed: " . $conn->error);
-        }
-        $stmt->bind_param("ssssssssss", $admin_id, $first_name, $middle_name, $last_name, $email, $mb_number, $admin_pos, $branch, $hashed_password, $permissions_json);
-        if (!$stmt->execute()) {
-            throw new Exception("Error inserting new admin account: " . $stmt->error);
-        }
-
+        $stmt->close(); // Close after checking email
         // Generate a unique reset token
         do {
             $token = JWTHandler::encodeResetToken($email, 3600); // 1-hour expiration
 
             // Check if the token exists in the blacklist
-            $stmt = $conn->prepare("SELECT token FROM token_blacklist WHERE token = ?");
-            if (!$stmt) {
+            $check_stmt = $conn->prepare("SELECT token FROM token_blacklist WHERE token = ?");
+            if (!$check_stmt) {
                 throw new Exception("Prepare statement failed: " . $conn->error);
             }
-            $stmt->bind_param("s", $token);
-            if (!$stmt->execute()) {
+            $check_stmt->bind_param("s", $token);
+            if (!$check_stmt->execute()) {
                 throw new Exception("Query execution failed: " . $stmt->error);
             }
-            $stmt->store_result();
+            $check_stmt->store_result();
 
-            $exists = $stmt->num_rows > 0;
-
-            // If the token exists, remove it from blacklist
-            if ($exists) {
-                $stmt = $conn->prepare("DELETE FROM token_blacklist WHERE token = ?");
-                if (!$stmt) {
-                    throw new Exception("Prepare statement failed: " . $conn->error);
-                }
-                $stmt->bind_param("s", $token);
-                if (!$stmt->execute()) {
-                    throw new Exception("Error removing old token: " . $stmt->error);
-                }
-            }
+            $exists = $check_stmt->num_rows > 0;
         } while ($exists);
-
+        // Insert new admin credentials
+        $stmt = $conn->prepare("INSERT INTO admin_creds (admin_id,
+                                                        first_name, 
+                                                        middle_name, 
+                                                        last_name, 
+                                                        username,
+                                                        email, 
+                                                        contact_number, 
+                                                        admin_position,
+                                                        branch, 
+                                                        password, 
+                                                        jwt_token,
+                                                        admin_permissions) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        if (!$stmt) {
+            throw new Exception("Prepare statement failed: " . $conn->error);
+        }
+        $stmt->bind_param(
+            "ssssssssssss",
+            $admin_id,
+            $first_name,
+            $middle_name,
+            $last_name,
+            $username,
+            $email,
+            $mb_number,
+            $admin_pos,
+            $branch,
+            $hashed_password,
+            $token,
+            $permissions_json
+        );
+        if (!$stmt->execute()) {
+            throw new Exception("Error inserting new admin account: " . $stmt->error);
+        }
+        $stmt->close();
         // Send email verification
         if (sendAccountVerificationEmail($email, $first_name, $password, $token)) {
             $_SESSION['error_message'] = "<div class='mt-3 alert alert-success'>Account Added!</div>";

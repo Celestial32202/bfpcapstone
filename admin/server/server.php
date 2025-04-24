@@ -4,11 +4,12 @@ require realpath(__DIR__ . '/../../vendor/autoload.php');
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use React\EventLoop\Loop;
-use React\Socket\SocketServer;
 use Ratchet\Http\HttpServer;
-use Ratchet\WebSocket\WsServer;
 use Ratchet\Server\IoServer;
+use Ratchet\WebSocket\WsServer;
+use React\Socket\Server as ReactServer;
+use React\Socket\SecureServer;
+use React\EventLoop\Loop;
 
 class VideoCallServer implements MessageComponentInterface
 {
@@ -562,32 +563,23 @@ class VideoCallServer implements MessageComponentInterface
 // ✅ Fix: Initialize `$loop` before `addPeriodicTimer`
 $loop = Loop::get();
 
-// ✅ Create the WebSocket server instance
-$serverInstance = new VideoCallServer();
+$tcpServer = new ReactServer('0.0.0.0:8443', $loop);
 
-// ✅ Start a periodic timer to check inactive users
-$loop->addPeriodicTimer(5, function () use ($serverInstance) {
-    $serverInstance->checkInactiveUsers();
-});
+$secureWebSocket = new SecureServer($tcpServer, $loop, [
+    'local_cert' => '/etc/letsencrypt/live/baranggay-magtanggol.online/fullchain.pem',
+    'local_pk' => '/etc/letsencrypt/live/baranggay-magtanggol.online/privkey.pem',
+    'verify_peer' => false,
+    'verify_peer_name' => false,
+    'allow_self_signed' => true,
+]);
 
-$context = [
-    'tls' => [
-        'local_cert'  => 'C:/xampp/apache/conf/ssl.crt/localhost.pem',
-        'local_pk'    => 'C:/xampp/apache/conf/ssl.key/localhost-key.pem',
-        'allow_self_signed' => true,
-        'verify_peer' => false,
-    ]
-];
-
-// $socket = new SocketServer(0.0.0.0:8081', [], $loop);
-$socket = new SocketServer('tls://0.0.0.0:8081', $context, $loop);
 $server = new IoServer(
     new HttpServer(
-        new WsServer($serverInstance)
+        new WsServer(new VideoCallServer())
     ),
-    $socket,
+    $secureWebSocket,
     $loop
 );
 
-echo "🟢 WebSocket Server started on port 8081\n";
+echo "✅ Secure WebSocket server running on wss://baranggay-magtanggol.online:8443\n";
 $loop->run();

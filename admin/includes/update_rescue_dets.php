@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once('../../config.php');
-require_once '../server/jwt_handler.php';
+require_once '../configs/jwt_handler.php';
 
 header('Content-Type: application/json');
 

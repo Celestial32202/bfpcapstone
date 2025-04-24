@@ -1,5 +1,6 @@
 <?php
-require_once 'auth.php';
+require_once 'configs/auth.php';
+require_once 'configs/jwt_handler.php';
 checkLogin();
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 ?>
@@ -15,7 +16,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     <meta name="author" content="">
 
     <title>BFP ADMIN</title>
-
+    <link rel="icon" href="img/page-favicon.svg" type="image/x-icon">
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link

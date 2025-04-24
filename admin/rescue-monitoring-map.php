@@ -6,7 +6,7 @@
 <?php include('includes/navbar.php'); ?>
 <!-- End of Topbar -->
 <?php
-require_once 'server/jwt_handler.php';
+
 if (!isset($_SESSION['permissions']['manage_reports']) && $_SESSION['permissions']['manage_reports'] != 1) {
     header("Location: dashboard.php");
     exit();

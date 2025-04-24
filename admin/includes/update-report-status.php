@@ -1,6 +1,6 @@
 <?php
 require_once('../../config.php');
-require_once '../server/jwt_handler.php';
+require_once '../configs/jwt_handler.php';
 session_start();
 $session_admin = $_SESSION['admin_user'];
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // Enable error reporting for debugging

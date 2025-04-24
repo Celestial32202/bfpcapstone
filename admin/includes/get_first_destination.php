@@ -1,6 +1,6 @@
 <?php
 include '../../config.php'; // Ensure this file connects to your database
-include '../server/jwt_handler.php';
+include '../configs/jwt_handler.php';
 header('Content-Type: application/json');
 session_start();
 

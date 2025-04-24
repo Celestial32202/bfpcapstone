@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 include '../../config.php'; // Ensure this file connects to your database
-include '../server/jwt_handler.php';
+include '../configs/jwt_handler.php';
 
 // Ensure admin is logged in
 if (!isset($_SESSION['admin_user'])) {

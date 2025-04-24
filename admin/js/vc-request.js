@@ -3,7 +3,7 @@ const config = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 let adminUser = null;
 
 // 🌐 Fetch Session Data First
-fetch("session-info.php")
+fetch("configs/session-info.php")
     .then(response => response.json())
     .then(data => {
         adminUser = data.admin_user;

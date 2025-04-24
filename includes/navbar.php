@@ -1,18 +1,18 @@
 <header id="header" class="header fixed-top shadow" data-scrollto-offset="0">
     <div class="container-fluid d-flex align-items-center justify-content-between">
         <a href="index.php" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
-            <img class="img-fluid  fixed-main-size" src="img/image_logo.png" style="margin-left: 20px;">
+            <img class="img-fluid fixed-main-size" src="img/image_logo.png" style="margin-left: 20px;">
         </a>
         <nav id="navbar" class="navbar">
             <ul>
                 <li>
                     <a href="index.php" class="">Home</a>
                     <?php
-                        // if (isset($_GET['active_page'] == "home_page")) {
-                        //     echo '<a href="index.php?active_page=home_page" class="active">Home</a>';
-                        // } else {
-                        //     echo '<a href="index.php?active_page=home_page" class="">Home</a>';
-                        // }
+                    // if (isset($_GET['active_page'] == "home_page")) {
+                    //     echo '<a href="index.php?active_page=home_page" class="active">Home</a>';
+                    // } else {
+                    //     echo '<a href="index.php?active_page=home_page" class="">Home</a>';
+                    // }
                     ?>
                 </li>
                 <li>

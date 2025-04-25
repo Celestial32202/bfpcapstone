@@ -70,7 +70,9 @@ fetch("configs/session-info.php")
                     })
                     .then(response => response.json())
                     .then(data => {
+                        console.log("Response from accept_rescue.php:", data); // Log the full response 
                         if (data.status) {
+                            
                             userStatus = data.status;
                             console.log(userStatus);
                             if(userStatus === 'returning'){

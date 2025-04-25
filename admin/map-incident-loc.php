@@ -1,10 +1,11 @@
 <?php
 require_once('../config.php');
+require_once('configs/jwt_handler.php');
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 
+$token = isset($_GET['token']) ? urldecode(trim($_GET['token'])) : '';
 
-$token = isset($_GET['token']) ? trim($_GET['token']) : ''; // ✅ Validate token input
 if (!$token) {
     die("❌ No token provided.");
 }

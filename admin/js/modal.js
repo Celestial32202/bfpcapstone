@@ -148,7 +148,7 @@ function updateReportStatus(report_status, incidentId, userId) {
                         update: "Approved",
                         verified_by: data.verified_by
                     }));
-                    let reportLink = `map-incident-loc.php?token=${data.incident_id}`;
+                    let reportLink = `map-incident-loc.php?token=${encodeURIComponent(data.incident_id)}`;
                     window.open(reportLink, "_blank");
                     location.reload();
                 }if (data.report_status==="processing"){

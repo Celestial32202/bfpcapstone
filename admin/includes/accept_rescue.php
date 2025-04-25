@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
 header('Content-Type: application/json');
 include '../../config.php'; // Ensure this file connects to your database
@@ -17,6 +19,8 @@ $adminBranch = $_SESSION['branch'];
 $incidentToken = $data['incidentToken'] ?? null;
 $latitude = $data['latitude'] ?? null;
 $longitude = $data['longitude'] ?? null;
+$latDefault = 0;
+$longDefault = 0;
 if (!$incidentToken) {
     echo json_encode(["error" => "Incident token is missing"]);
     exit;
@@ -122,26 +126,35 @@ if ($checkStmt->num_rows > 0) {
         $updateStmt->bind_param("ddiisss", $latitude, $longitude, $acceptedRescueId, $rescueDetailsId, $adminUser, $adminBranch, $incidentId);
 
         if ($updateStmt->execute()) {
-            echo json_encode(["success" => "Rescue location updated to ongoing"]);
+            echo json_encode(
+                [
+                    "success" => "Rescue location updated to ongoing",
+                    "status" => "ongoing"
+                ]
+            );
         } else {
             echo json_encode(["error" => "Failed to update location", "sql_error" => $updateStmt->error]);
         }
         $updateStmt->close();
     }
 } else {
-    // Not accepted yet — insert as accepted
-    $insertStmt = $conn->prepare("INSERT INTO accepted_fire_rescues (rescue_details_id, incident_id, fire_officer, branch, status, time_accepted) VALUES (?, ?, ?, ?, 'accepted', NOW())");
+    // Not accepted yet — insert as 
+    $insertStmt = $conn->prepare("INSERT INTO accepted_fire_rescues (rescue_details_id, incident_id, fire_officer, branch, latitude, longitude, status, time_accepted) VALUES (?, ?, ?, ?, ?, ?, 'accepted', NOW())");
+
     if (!$insertStmt) {
         echo json_encode(["error" => "SQL preparation failed", "sql_error" => $conn->error]);
         exit;
     }
-    $insertStmt->bind_param("isss", $rescueDetailsId, $incidentId, $adminUser, $adminBranch);
+
+    // Bind parameters with correct data types
+    $insertStmt->bind_param("isssdd", $rescueDetailsId, $incidentId, $adminUser, $adminBranch, $latDefault, $longDefault);
 
     if ($insertStmt->execute()) {
         echo json_encode(["success" => "Rescue accepted successfully"]);
     } else {
         echo json_encode(["error" => "Database insert failed", "sql_error" => $insertStmt->error]);
     }
+
     $insertStmt->close();
 }
 $checkStmt->close();

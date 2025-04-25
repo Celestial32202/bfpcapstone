@@ -21,12 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $incident_id =  $_POST["incident_id"] ?? "";
 
         if (!empty($incident_id) && !empty($report_status) && !empty($connection_id)) {
-            $updateQuery = "UPDATE incident_report SET report_status = ?, verified_by = ? , verified_at = NOW() WHERE incident_id = ? AND connection_id = ?";
+            $token = JWTHandler::encode($incident_id);
+            $updateQuery = "UPDATE incident_report SET report_status = ?, verified_by = ? , token = ?, verified_at = NOW() WHERE incident_id = ? AND connection_id = ?";
             $stmt = $conn->prepare($updateQuery);
-            $stmt->bind_param("ssss", $report_status, $session_admin, $incident_id, $connection_id);
+            $stmt->bind_param("sssss", $report_status, $session_admin, $token, $incident_id, $connection_id);
 
             if ($stmt->execute()) {
-                $token = JWTHandler::encode($incident_id);
+
                 $response = [
                     "success" => true,
                     "connection_id" => $connection_id,

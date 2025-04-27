@@ -4,9 +4,7 @@
     include('includes/header.php'); //<!-- Header -->
     include('includes/siderbar.php'); //<!-- Sidebar -->
     include('includes/navbar.php'); //<!-- Topbar -->
-?>
-
-<?php
+    
     if (!isset($_SESSION['permissions']['recieve_rescue_reports']) && $_SESSION['permissions']['recieve_rescue_reports'] != 1) {
         header("Location: dashboard.php");
         exit();

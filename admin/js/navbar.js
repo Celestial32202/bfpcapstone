@@ -2,7 +2,7 @@ var uriPath = location.pathname;
 var targetLocation = uriPath.split('/').at(-1);
 
 $(document).ready(function() {
-    if (targetLocation == "tracker-map.php") {
+    if (targetLocation == "tracker-map.php" || targetLocation == "dashboard.php") {
         hideHamburgerMenuIcon();
     } else {
         // do nothing...

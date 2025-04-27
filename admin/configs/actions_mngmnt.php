@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare("UPDATE admin_creds SET is_locked = 1 WHERE admin_id = ?");
         $stmt->bind_param("s", $user_id);
     } elseif ($action == 'unlock') {
-        $stmt = $conn->prepare("UPDATE admin_creds SET is_locked = 0 WHERE admin_id = ?");
+        $stmt = $conn->prepare("UPDATE admin_creds SET is_locked = 0, failed_attempts = 0 WHERE admin_id = ?");
         $stmt->bind_param("s", $user_id);
     } else {
         echo "invalid_action";

@@ -118,6 +118,8 @@ if ($checkStmt->num_rows > 0) {
         $locationStmt->close();
     } else {
         // Already accepted — update location and status
+        $latitude = 0;
+        $longitude = 0;
         $updateStmt = $conn->prepare("UPDATE accepted_fire_rescues SET latitude = ?, longitude = ?, status = 'ongoing' WHERE id = ? AND rescue_details_id = ? AND fire_officer = ? AND branch = ? AND incident_id = ?");
         if (!$updateStmt) {
             echo json_encode(["error" => "SQL preparation failed", "sql_error" => $conn->error]);
@@ -139,21 +141,44 @@ if ($checkStmt->num_rows > 0) {
     }
 } else {
     // Not accepted yet — insert as 
-    $insertStmt = $conn->prepare("INSERT INTO accepted_fire_rescues (rescue_details_id, incident_id, fire_officer, branch, latitude, longitude, status, time_accepted) VALUES (?, ?, ?, ?, ?, ?, 'accepted', NOW())");
-
-    if (!$insertStmt) {
-        echo json_encode(["error" => "SQL preparation failed", "sql_error" => $conn->error]);
+    // First, check if it already exists
+    $checkStmt = $conn->prepare("SELECT id FROM accepted_fire_rescues WHERE rescue_details_id = ? AND incident_id = ?");
+    if (!$checkStmt) {
+        echo json_encode(["error" => "SQL preparation failed (check)", "sql_error" => $conn->error]);
         exit;
     }
+    $checkStmt->bind_param("is", $rescueDetailsId, $incidentId);
+    $checkStmt->execute();
+    $checkStmt->store_result();
 
-    // Bind parameters with correct data types
-    $insertStmt->bind_param("isssdd", $rescueDetailsId, $incidentId, $adminUser, $adminBranch, $latDefault, $longDefault);
-
-    if ($insertStmt->execute()) {
+    if ($checkStmt->num_rows > 0) {
+        // Already exists, don't insert again
         echo json_encode(["success" => "Rescue accepted successfully"]);
     } else {
-        echo json_encode(["error" => "Database insert failed", "sql_error" => $insertStmt->error]);
+        // Not yet accepted — insert now
+        $insertStmt = $conn->prepare("INSERT INTO accepted_fire_rescues (rescue_details_id, incident_id, fire_officer, branch, latitude, longitude, status, time_accepted) VALUES (?, ?, ?, ?, ?, ?, 'accepted', NOW())");
+
+        if (!$insertStmt) {
+            echo json_encode(["error" => "SQL preparation failed (insert)", "sql_error" => $conn->error]);
+            exit;
+        }
+
+        $insertStmt->bind_param("isssdd", $rescueDetailsId, $incidentId, $adminUser, $adminBranch, $latDefault, $longDefault);
+
+        if ($insertStmt->execute()) {
+            echo json_encode(["success" => "Rescue accepted successfully"]);
+        } else {
+            echo json_encode(["error" => "Database insert failed", "sql_error" => $insertStmt->error]);
+        }
     }
+
+    // Always clean up
+    $checkStmt->close();
+    if (isset($insertStmt)) {
+        $insertStmt->close();
+    }
+    $conn->close();
+
 
     $insertStmt->close();
 }

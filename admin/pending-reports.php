@@ -125,9 +125,9 @@ if (!isset($_SESSION['permissions']['manage_reports']) && $_SESSION['permissions
                                     data-message="<?php echo $row['info_message']; ?>"
                                     data-time="<?php echo date('g:i a', strtotime($row['submitted_at'])); ?>"
                                     data-status="<?php echo $row['report_status']; ?>" <?php echo $gpsAttributes; ?>
-                                    data-verified-by="<?php echo $row['verified_by']; ?>">
-
-                                    View
+                                    data-verified-by="<?php echo $row['verified_by']; ?>"
+                                    data-residentImage="<?php echo $row['resident_image_url']; ?>"
+                                > View
                                 </button>
                             </td>
                         </tr>
@@ -166,7 +166,9 @@ if (!isset($_SESSION['permissions']['manage_reports']) && $_SESSION['permissions
                         <p><strong>Message:</strong> <span id="modalMessage"></span></p>
                         <p><strong>Time Submitted:</strong> <span id="modalTime"></span></p>
                         <p><strong>Status:</strong> <span id="modalStatus"></span></p>
-                        <p id="modalGpsLocation"><strong>GPS Status:</strong> Loading...</p>
+                        <p id="modalGpsLocation"><strong>GPS Status:</strong> Loading...</p>  <br> <br>
+                        <p><strong>Resident Image:</strong></p> <br>
+                        <img id="residentImageURL" style="height: 250px; width: 250px;"/>
                     </div>
                     <div class="col-xl-7 ">
                         <h5 class="m-0 font-weight-bold text-primary mb-2">
@@ -180,7 +182,7 @@ if (!isset($_SESSION['permissions']['manage_reports']) && $_SESSION['permissions
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary call-btn" data-id="" data-userid="">Call</button>
+                <!-- <button type="button" class="btn btn-primary call-btn" data-id="" data-userid="">Call</button> -->
                 <button type="button" class="btn btn-success approve-btn" data-userid="" data-id=""
                     data-dismiss="modal">Approve</button>
                 <button type="button" class="btn btn-danger decline-btn" data-userid="" data-id=""

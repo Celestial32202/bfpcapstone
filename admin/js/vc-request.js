@@ -47,6 +47,7 @@ ws.onmessage = async (event) => {
                 data.location,
                 data.message,
                 data.report_status,
+                data.resident_image_url,
                 data.submitted_at,
                 data.gpsLocation,
                 data.video_stream_meeting_id
@@ -100,7 +101,7 @@ ws.onmessage = async (event) => {
 };           
                                                                       
 // 📌 Admin Sees User Requests
-function displayIncidentReport(userId, incident_id, reporter_name, contact_number, location, message, report_status, submitted_at, gpsLocation) { 
+function displayIncidentReport(userId, incident_id, reporter_name, contact_number, location, message, report_status, residentImageURL, submitted_at, gpsLocation) { 
     let tableBody = document.querySelector("#dataTable tbody");
     if (!tableBody) {
         console.error("❌ This is user page");
@@ -142,8 +143,8 @@ function displayIncidentReport(userId, incident_id, reporter_name, contact_numbe
                     data-message="${message}"
                     data-time="${submitted_at}"
                     data-status="${report_status}"
+                    data-residentImage="${residentImageURL}"
                     ${gpsAttributes} >View
-
                 </button>
             </td>
             </tr>

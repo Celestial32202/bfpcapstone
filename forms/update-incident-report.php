@@ -15,13 +15,15 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
         $date = date("Ymd");
-
+        $resident_image_url = filter_var($_POST["resident_image_url"] ?? "", FILTER_SANITIZE_STRING);
+        $incident_id = filter_var($_POST["incident_id"] ?? "", FILTER_SANITIZE_STRING);
+        /*
         $reporter_name = filter_var($_POST["name"] ?? "", FILTER_SANITIZE_STRING);
         $contact_number = filter_var($_POST["contact_number"] ?? "", FILTER_SANITIZE_STRING);
         $incident_location = filter_var($_POST["location"] ?? "", FILTER_SANITIZE_STRING);
         $info_message = filter_var($_POST["message"] ?? "", FILTER_SANITIZE_STRING);
         $connection_id = filter_var($_POST["connection_id"] ?? "", FILTER_SANITIZE_STRING);
-        $gps_location = filter_var($_POST["gps_location"] ?? "", FILTER_SANITIZE_STRING);
+        // $gps_location = filter_var($_POST["gps_location"] ?? "", FILTER_SANITIZE_STRING);
         $connection_status = "connected";
         $report_status = "pending"; // Default status
         $resident_image_url = "https://rb.gy/ahvfma";
@@ -51,40 +53,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $needsNewRow = false; // Flag to determine if a new row should be inserted
         $response = ["success" => false]; // Default response
+        */
 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $last_status = $row['report_status'];
+        // if ($result->num_rows > 0) {
+        //     $row = $result->fetch_assoc();
+        //     $last_status = $row['report_status'];
 
-            if ($last_status === "pending") {
-                // ✅ If last report is "Pending", update it
+        //     if ($last_status === "pending") {
+        //      // ✅ If last report is "Pending", update it
                 $updateQuery = "UPDATE incident_report 
-                                SET incident_id = ?, 
-                                    reporter_name = ?, 
-                                    contact_no = ?, 
-                                    incident_location = ?, 
-                                    info_message = ?,
-                                    gps_location = ?, 
-                                    report_status = ?, 
-                                    resident_image_url = ?, 
-                                    connection_status = ?, 
+                                SET resident_image_url = ?, 
                                     submitted_at = NOW()
-                                WHERE connection_id = ?";
+                                WHERE incident_id = ?";
                 $update_stmt = $conn->prepare($updateQuery);
                 $update_stmt->bind_param(
-                    "ssssssssss",
-                    $incident_id,
-                    $reporter_name,
-                    $contact_number,
-                    $incident_location,
-                    $info_message,
-                    $gps_location,
-                    $report_status,
+                    "ss",
                     $resident_image_url,
-                    $connection_status,
-                    $connection_id
+                    $incident_id
                 );
-
+                $update_stmt->execute();
+                $update_stmt->close();
+                
+                /*
                 if ($update_stmt->execute()) {
                     // ✅ Fetch updated `submitted_at` time
                     $timeQuery = "SELECT submitted_at FROM incident_report WHERE incident_id = ?";
@@ -114,15 +104,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 }
 
                 $update_stmt->close();
-            } else {
-                // ✅ If last report is "Approved" or "Declined", a new row should be added
-                $needsNewRow = true;
-            }
-        } else {
-            // ✅ No existing connection_id, insert a new row
-            $needsNewRow = true;
-        }
-
+                */
+            // } else {
+            //     // ✅ If last report is "Approved" or "Declined", a new row should be added
+            //     $needsNewRow = true;
+            // }
+        // } else {
+        //     // ✅ No existing connection_id, insert a new row
+        //     $needsNewRow = true;
+        // }
+        
+        /*
         if ($needsNewRow) {
             // ✅ Insert a new row for "Approved"/"Declined" or a new submission
             $insertQuery = "INSERT INTO incident_report (incident_id, 
@@ -182,6 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $stmt->close();
         }
+        */
     } catch (mysqli_sql_exception $e) {
         $response["error"] = "Database Error: " . $e->getMessage();
     }

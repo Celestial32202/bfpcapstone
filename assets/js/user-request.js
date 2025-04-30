@@ -8,9 +8,7 @@ const config = {
     ]
 };
 const fetchMeetingRooms = async (_) => {
-    console.log("fetchMeetingRooms...");
     var meetingRooms = await db.collection(meetingRef + meetingsDomain + "/" + roomRef).get();
-    console.log("total meetingRooms ->", meetingRooms.docs.length);
     meetingRooms.docs.forEach(v => {
         const d = v.data();
         meetingId = d.meeting_id;
@@ -151,14 +149,16 @@ ws.onmessage = async (event) => {
 document.getElementById("incidentForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent default form submission
 
-    document.getElementById("vid-stream").classList.toggle("d-none");
-    document.getElementById("info-spinner").style.display = "block";
-    document.getElementById("report-form").style.display = "none";
+    // document.getElementById("vid-stream").classList.toggle("d-none");
+    // document.getElementById("info-spinner").style.display = "block";
+    // document.getElementById("report-form").style.display = "none";
 
     let name = document.getElementById("name").value;
     let contact_number = document.getElementById("contact-number").value;
     let location = document.getElementById("location").value;
     let message = document.getElementById("message").value;
+
+    var defaultImage = "https://rb.gy/ahvfma";
 
     getLocation((gpsResult) => {
         let gpsData = gpsResult.success
@@ -172,8 +172,9 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
         formData.append("message", message);
         formData.append("connection_id", currentUserId);
         formData.append("gps_location", gpsData); // ✅ Always store GPS or Error
+        formData.append("resident_image_url", defaultImage);
 
-        console.log("incident-report meetingId ->", meetingId);
+        console.log("incident report formData ->", formData);
 
         fetch("forms/incident-report.php", {
             method: "POST",
@@ -185,7 +186,12 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
                 let data = JSON.parse(text);
                 if (data.success) {
                     console.log("✅ Incident Report Submitted! ID:", data.incident_id, data.connection_id);
-                    
+
+                    /* LOCAL */
+                    // window.open('../testing/video-stream/user-images/regular_user.html');
+
+                    /* WEB HOSTING */
+                    window.open('https://baranggay-magtanggol-online.web.app/user-images/regular_user.html');
                     
                     ws.send(JSON.stringify({
                         type: "newIncidentReport",
@@ -197,13 +203,16 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
                         message: message,
                         gps_location: gpsData, // ✅ Send GPS or error to WebSocket
                         report_status: data.report_status,
+                        resident_image_url: defaultImage,
                         submitted_at: data.submitted_at,
                         video_stream_meeting_id: meetingId
                     }));
 
-                    console.log("✅ Form Submitted! Waiting for Admin.");
+                    localStorage.setItem("resident_submitted_incident_id", data.incident_id);
+
+                    console.log("✅ Form and set local storage Submitted! Waiting for Admin.");
                 } else {
-                    console.error("❌ Error:", data.error);
+                    console.log("❌ Error:", data.error);
                     alert("❌ Error Submitting Report: " + data.error);
                 }
             } catch (error) {
@@ -214,7 +223,11 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
         .catch(error => console.error("❌ Fetch Error:", error));
     });
 
-    window.open('https://baranggay-magtanggol-online.web.app/vs_user_video_stream.html');
+    // /* LOCAL */
+    // window.open('../testing/video-stream/user-images/regular_user.html');
+
+    // /* WEB HOSTING */
+    // // window.open('https://baranggay-magtanggol-online.web.app/vs_user_video_stream.html');
 });
 
 
@@ -267,7 +280,8 @@ async function acceptCall() {
     myModal.hide();
     document.getElementById("info-spinner").style.display = "none"; 
     document.getElementById("vid-spinner").style.display = "block"; 
-
+    
+    /*
     try {
         let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         console.log("🎥 Camera Access Granted. Starting Call...");
@@ -284,6 +298,7 @@ async function acceptCall() {
     } catch (error) {
         console.error("❌ Camera/Microphone Access Failed:", error);
     }
+    */
 }
 async function startUserVideoCall(stream, userId) {
     console.log("📡 Starting WebRTC Peer Connection...");

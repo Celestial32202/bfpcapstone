@@ -8,11 +8,13 @@ document.addEventListener("click", function (event) {
     let incidentId = button.getAttribute("data-id");
     let reporterName = button.getAttribute("data-name");
     let reportStatus = button.getAttribute("data-status");
+    let residentImage = button.getAttribute("data-residentImage");
     let verifiedBy = button.getAttribute("data-verified-by"); // Get dynamically updated verified_by
     console.log("🔍 Extracted Data:");
     console.log("User ID:", userId);
     console.log("Incident ID:", incidentId);
     console.log("Reporter Name:", reporterName);
+    console.log("residentImage >>>", residentImage);
 
     if (!incidentId) {
         console.error("❌ Incident ID is missing!");
@@ -27,6 +29,9 @@ document.addEventListener("click", function (event) {
     document.getElementById("modalMessage").textContent = button.getAttribute("data-message");
     document.getElementById("modalTime").textContent = button.getAttribute("data-time");
     document.getElementById("modalStatus").textContent = reportStatus;
+
+    var image = document.getElementById("residentImageURL");
+    image.src = residentImage;       
 
     // ✅ Select buttons inside the modal
     let callBtn = document.querySelector(".call-btn");
@@ -93,18 +98,18 @@ document.addEventListener("click", function (event) {
         map.resize();
     });
 });
-document.querySelector(".call-btn").addEventListener("click", function () {
-    let userId = this.getAttribute("data-userid");
-    let incidentId = this.getAttribute("data-id");
+// document.querySelector(".call-btn").addEventListener("click", function () {
+//     let userId = this.getAttribute("data-userid");
+//     let incidentId = this.getAttribute("data-id");
     
-    if (userId) {
-        updateReportStatus("processing", incidentId, userId);
+//     if (userId) {
+//         updateReportStatus("processing", incidentId, userId);
         
-        requestVideoCall(userId);
-    } else {
-        console.error("❌ No user ID found for call request.");
-    }
-});
+//         requestVideoCall(userId);
+//     } else {
+//         console.error("❌ No user ID found for call request.");
+//     }
+// });
 document.querySelector(".approve-btn").addEventListener("click", function () {
     let userId = this.getAttribute("data-userid");
     let incidentId = this.getAttribute("data-id");

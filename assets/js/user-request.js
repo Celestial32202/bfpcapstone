@@ -186,12 +186,6 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
                 let data = JSON.parse(text);
                 if (data.success) {
                     console.log("✅ Incident Report Submitted! ID:", data.incident_id, data.connection_id);
-
-                    /* LOCAL */
-                    // window.open('../testing/video-stream/user-images/regular_user.html');
-
-                    /* WEB HOSTING */
-                    window.open('https://baranggay-magtanggol-online.web.app/user-images/regular_user.html');
                     
                     ws.send(JSON.stringify({
                         type: "newIncidentReport",
@@ -209,6 +203,13 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
                     }));
 
                     localStorage.setItem("resident_submitted_incident_id", data.incident_id);
+
+                    /* LOCAL */
+                    // window.open('../testing/video-stream/user-images/regular_user.html');
+
+                    /* WEB HOSTING */
+                    window.open('image-upload/user-images/regular_user.html');
+                    // window.open('https://baranggay-magtanggol-online.web.app/user-images/regular_user.html');
 
                     console.log("✅ Form and set local storage Submitted! Waiting for Admin.");
                 } else {

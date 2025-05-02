@@ -87,9 +87,8 @@
         <div id="collapseNews" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Public Posts</h6>
-                <a class="collapse-item" href="#">Post News</a>
-                <a class="collapse-item" href="#">List of Posted News</a>
-                <a class="collapse-item" href="#">Submitted News</a>
+                <a class="collapse-item" href="post-news.php">Post News</a>
+                <a class="collapse-item" href="submitted-news.php">Submitted News</a>
             </div>
         </div>
     </li>

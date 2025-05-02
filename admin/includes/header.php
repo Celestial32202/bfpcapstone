@@ -28,6 +28,8 @@
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/admin.css" rel="stylesheet">
 
+    <link href="../image-upload/user-images/plugins/toastr/toastr.min.css" rel="stylesheet">
+
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>

@@ -11,9 +11,23 @@ if (!isset($_SESSION['permissions']['manage_reports']) && $_SESSION['permissions
     exit();
 }
 ?>
-<!-- Begin Page Content -->
+
 <div class="container-fluid">
-    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h4 class="h3 mb-0 text-gray-800">User's Video</h4>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-body text-center">
+                    <iframe src="https://baranggay-magtanggol-online.web.app/vs_admin_join_meeting.html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h4 class="h3 mb-0 text-gray-800">User's Video</h4>
     </div>
@@ -52,9 +66,8 @@ if (!isset($_SESSION['permissions']['manage_reports']) && $_SESSION['permissions
             </div>
         </div>
     </div>
+</div> -->
 
-</div>
-<!-- /.container-fluid -->
 <?php include('includes/footer.php'); ?>
 <script src="js/call.js"></script>
 <?php include('includes/scripts.php'); ?>

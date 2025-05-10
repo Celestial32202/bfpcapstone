@@ -1,3 +1,4 @@
+var meetingId = "";
 const ws = new WebSocket('wss://baranggay-magtanggol.online:8443');
 const config = {
     iceServers: [
@@ -6,7 +7,16 @@ const config = {
         }
     ]
 };
+const fetchMeetingRooms = async (_) => {
+    var meetingRooms = await db.collection(meetingRef + meetingsDomain + "/" + roomRef).get();
+    meetingRooms.docs.forEach(v => {
+        const d = v.data();
+        meetingId = d.meeting_id;
+    });
+    // console.log("meetingId ->", meetingId);
+}
 
+fetchMeetingRooms();
 
 let peerConnection;
 let currentUserId = localStorage.getItem("currentUserId");
@@ -135,17 +145,20 @@ ws.onmessage = async (event) => {
         default:
     }
 };
+
 document.getElementById("incidentForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent default form submission
 
-    document.getElementById("vid-stream").classList.toggle("d-none");
-    document.getElementById("info-spinner").style.display = "block";
-    document.getElementById("report-form").style.display = "none";
+    // document.getElementById("vid-stream").classList.toggle("d-none");
+    // document.getElementById("info-spinner").style.display = "block";
+    // document.getElementById("report-form").style.display = "none";
 
     let name = document.getElementById("name").value;
     let contact_number = document.getElementById("contact-number").value;
     let location = document.getElementById("location").value;
     let message = document.getElementById("message").value;
+
+    var defaultImage = "https://rb.gy/ahvfma";
 
     getLocation((gpsResult) => {
         let gpsData = gpsResult.success
@@ -159,6 +172,9 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
         formData.append("message", message);
         formData.append("connection_id", currentUserId);
         formData.append("gps_location", gpsData); // ✅ Always store GPS or Error
+        formData.append("resident_image_url", defaultImage);
+
+        console.log("incident report formData ->", formData);
 
         fetch("forms/incident-report.php", {
             method: "POST",
@@ -181,12 +197,23 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
                         message: message,
                         gps_location: gpsData, // ✅ Send GPS or error to WebSocket
                         report_status: data.report_status,
-                        submitted_at: data.submitted_at
+                        resident_image_url: defaultImage,
+                        submitted_at: data.submitted_at,
+                        video_stream_meeting_id: meetingId
                     }));
 
-                    console.log("✅ Form Submitted! Waiting for Admin.");
+                    localStorage.setItem("resident_submitted_incident_id", data.incident_id);
+
+                    /* LOCAL */
+                    // window.open('../testing/video-stream/user-images/regular_user.html');
+
+                    /* WEB HOSTING */
+                    window.open('image-upload/user-images/regular_user.html');
+                    // window.open('https://baranggay-magtanggol-online.web.app/user-images/regular_user.html');
+
+                    console.log("✅ Form and set local storage Submitted! Waiting for Admin.");
                 } else {
-                    console.error("❌ Error:", data.error);
+                    console.log("❌ Error:", data.error);
                     alert("❌ Error Submitting Report: " + data.error);
                 }
             } catch (error) {
@@ -196,6 +223,12 @@ document.getElementById("incidentForm").addEventListener("submit", function (e) 
         })
         .catch(error => console.error("❌ Fetch Error:", error));
     });
+
+    // /* LOCAL */
+    // window.open('../testing/video-stream/user-images/regular_user.html');
+
+    // /* WEB HOSTING */
+    // // window.open('https://baranggay-magtanggol-online.web.app/vs_user_video_stream.html');
 });
 
 
@@ -248,12 +281,13 @@ async function acceptCall() {
     myModal.hide();
     document.getElementById("info-spinner").style.display = "none"; 
     document.getElementById("vid-spinner").style.display = "block"; 
-
+    
+    /*
     try {
         let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         console.log("🎥 Camera Access Granted. Starting Call...");
         
-        document.getElementById("userVideo").srcObject = stream;
+        // document.getElementById("userVideo").srcObject = stream;
         document.getElementById("info-spinner").style.display = "none"; 
         document.getElementById("vid-spinner").style.display = "none";
         document.getElementById("videoContainer").style.display = "block";
@@ -265,30 +299,31 @@ async function acceptCall() {
     } catch (error) {
         console.error("❌ Camera/Microphone Access Failed:", error);
     }
+    */
 }
 async function startUserVideoCall(stream, userId) {
     console.log("📡 Starting WebRTC Peer Connection...");
-    peerConnection = new RTCPeerConnection(config);
+    // peerConnection = new RTCPeerConnection(config);
 
-    stream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, stream);
-        console.log("🎥 Added Track:", track.kind);
-    });
+    // stream.getTracks().forEach(track => {
+    //     peerConnection.addTrack(track, stream);
+    //     console.log("🎥 Added Track:", track.kind);
+    // });
 
-    peerConnection.onicecandidate = (event) => {
-        if (event.candidate) {
-            console.log("📤 Sending ICE Candidate to Server...");
-            ws.send(JSON.stringify({ 
-                type: "candidate", 
-                candidate: event.candidate, 
-                userId: userId  
-            }));
-        }
-    };
+    // peerConnection.onicecandidate = (event) => {
+    //     if (event.candidate) {
+    //         console.log("📤 Sending ICE Candidate to Server...");
+    //         ws.send(JSON.stringify({ 
+    //             type: "candidate", 
+    //             candidate: event.candidate, 
+    //             userId: userId  
+    //         }));
+    //     }
+    // };
 
-    let offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offer);
-    console.log("📤 Sending WebRTC Offer to Server...", offer);
+    // let offer = await peerConnection.createOffer();
+    // await peerConnection.setLocalDescription(offer);
+    // console.log("📤 Sending WebRTC Offer to Server...", offer);
 
     ws.send(JSON.stringify({ 
         type: "offer", 
@@ -304,10 +339,10 @@ async function startUserVideoCall(stream, userId) {
 function stopUserVideoCall() {
     console.log("🛑 Stopping User Video Stream...");
     // 🔴 Stop all media tracks
-    let videoElement = document.getElementById("userVideo");
-    if (videoElement.srcObject) {
-        videoElement.srcObject.getTracks().forEach(track => track.stop());
-    }
+    // let videoElement = document.getElementById("userVideo");
+    // if (videoElement.srcObject) {
+    //     videoElement.srcObject.getTracks().forEach(track => track.stop());
+    // }
     // 🔴 Hide video container
     document.getElementById("videoContainer").style.display = "none";
 
@@ -319,10 +354,10 @@ function stopUserVideoCall() {
 }
 function endCall() {
     console.log("❌ Ending Call...");
-    let videoElement = document.getElementById("userVideo");
-    if (videoElement.srcObject) {
-        videoElement.srcObject.getTracks().forEach(track => track.stop());
-    }
+    // let videoElement = document.getElementById("userVideo");
+    // if (videoElement.srcObject) {
+    //     videoElement.srcObject.getTracks().forEach(track => track.stop());
+    // }
     // 🔴 Hide video container
     document.getElementById("videoContainer").style.display = "none";
     ws.send(JSON.stringify({ type: "callEndedByUser", userId: currentUserId })); 

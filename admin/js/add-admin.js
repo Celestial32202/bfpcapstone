@@ -48,10 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const positionSelect = document.getElementById("position");
     const branchSelect = document.getElementById("branch");
     const branchContainer = branchSelect.parentElement;
-    
 
     fetchBranches();
-
     
 
     function toggleBranchVisibility() {

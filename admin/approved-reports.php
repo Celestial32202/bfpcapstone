@@ -60,7 +60,11 @@ if (!isset($_SESSION['permissions']['manage_reports']) && $_SESSION['permissions
                         ?>
                         <tr>
                             <td><?php echo $row['incident_id']; ?></td>
-                            <td><?php echo $row['reporter_name']; ?></td>
+                            <td><?php
+                                        echo $row['reporter_name'];
+
+
+                                        ?></td>
                             <td><?php echo $row['contact_no']; ?></td>
                             <td><?php echo $row['incident_location']; ?></td>
                             <td><?php echo $row['info_message']; ?></td>

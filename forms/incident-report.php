@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $gps_location = filter_var($_POST["gps_location"] ?? "", FILTER_SANITIZE_STRING);
         $connection_status = "connected";
         $report_status = "pending"; // Default status
+        $resident_image_url = "https://rb.gy/ahvfma";
 
         // Get the last `incident_id` (latest report)
         $query = "SELECT incident_id FROM incident_report ORDER BY id DESC LIMIT 1";
@@ -65,12 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     info_message = ?,
                                     gps_location = ?, 
                                     report_status = ?, 
+                                    resident_image_url = ?, 
                                     connection_status = ?, 
                                     submitted_at = NOW()
                                 WHERE connection_id = ?";
                 $update_stmt = $conn->prepare($updateQuery);
                 $update_stmt->bind_param(
-                    "sssssssss",
+                    "ssssssssss",
                     $incident_id,
                     $reporter_name,
                     $contact_number,
@@ -78,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $info_message,
                     $gps_location,
                     $report_status,
+                    $resident_image_url,
                     $connection_status,
                     $connection_id
                 );
@@ -127,20 +130,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                         reporter_name, 
                                                         contact_no, 
                                                         incident_location, 
+                                                        resident_image_url, 
                                                         info_message, 
                                                         gps_location, 
                                                         report_status, 
                                                         connection_status, 
                                                         submitted_at) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
             $stmt = $conn->prepare($insertQuery);
             $stmt->bind_param(
-                "sssssssss",
+                "ssssssssss",
                 $incident_id,
                 $connection_id,
                 $reporter_name,
                 $contact_number,
                 $incident_location,
+                $resident_image_url,
                 $info_message,
                 $gps_location,
                 $report_status,

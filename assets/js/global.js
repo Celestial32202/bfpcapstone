@@ -1,0 +1,16 @@
+var meetingRef = "meeting/";
+var roomRef = "room/";
+var meetingsDomain = "com.web.meeting.room";
+var web = "WEB";
+var videoSDK = "video_sdk";
+var now = new Date(Date.now());
+var currentTime = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+var fullCurrentDateTime = yyyy + '-' + mm + '-' + dd + ' ' + Date().slice(16,25);
+var fullDate = yyyy + '-' + mm + '-' + dd;
+var date = new Date();
+var time = date.getHours() + date.getMinutes() + date.getSeconds();
+var dd = String(date.getDate()).padStart(2, '0');
+var mm = String(date.getMonth() + 1).padStart(2, '0');
+var yyyy = date.getFullYear();
+var now = new Date();
+var serverDateTime = firebase.firestore.FieldValue.serverTimestamp();

@@ -65,7 +65,11 @@ if (!isset($_SESSION['permissions']['recieve_rescue_reports']) && $_SESSION['per
                             while ($row = mysqli_fetch_assoc($query_run)) {
                         ?>
                         <tr data-id="<?php echo $row['id']; ?>">
-                            <td><?php echo $row['incident_id']; ?></td>
+                            <td><?php echo $row['incident_id'];
+                                        $fetchedToken = $row['auth_token'];
+                                        $decodedData = JWTHandler::incident_decode($fetchedToken);
+                                        echo $decodedData['incident_id'];
+                                        ?></td>
                             <td><?php echo $row['incident_location']; ?></td>
                             <td><?php echo $row['info_message']; ?></td>
                             <td><span class="badge badge-warning">

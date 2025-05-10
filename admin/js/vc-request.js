@@ -3,7 +3,7 @@ const config = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 let adminUser = null;
 
 // 🌐 Fetch Session Data First
-fetch("session-info.php")
+fetch("configs/session-info.php")
     .then(response => response.json())
     .then(data => {
         adminUser = data.admin_user;
@@ -47,8 +47,10 @@ ws.onmessage = async (event) => {
                 data.location,
                 data.message,
                 data.report_status,
+                data.resident_image_url,
                 data.submitted_at,
-                data.gpsLocation
+                data.gpsLocation,
+                data.video_stream_meeting_id
             );
             updateUserStatus(data.userId, data.status);
             break;
@@ -99,7 +101,7 @@ ws.onmessage = async (event) => {
 };           
                                                                       
 // 📌 Admin Sees User Requests
-function displayIncidentReport(userId, incident_id, reporter_name, contact_number, location, message, report_status, submitted_at, gpsLocation) { 
+function displayIncidentReport(userId, incident_id, reporter_name, contact_number, location, message, report_status, residentImageURL, submitted_at, gpsLocation) { 
     let tableBody = document.querySelector("#dataTable tbody");
     if (!tableBody) {
         console.error("❌ This is user page");
@@ -141,8 +143,8 @@ function displayIncidentReport(userId, incident_id, reporter_name, contact_numbe
                     data-message="${message}"
                     data-time="${submitted_at}"
                     data-status="${report_status}"
+                    data-residentImage="${residentImageURL}"
                     ${gpsAttributes} >View
-
                 </button>
             </td>
             </tr>
@@ -182,11 +184,12 @@ function displayIncidentReport(userId, incident_id, reporter_name, contact_numbe
     tableBody.prepend(newRow); // ✅ Insert new report at the top
     }
 }
-
 // 📞 Admin Requests Video Call
 function requestVideoCall(userId) {
     console.log("📞 Sending Video Call Request to User:", userId);
-    let callUrl = `call.php?token=${userId}`;
+    // let callUrl = `call.php?token=${userId}`;
+    
+    window.open('https://baranggay-magtanggol-online.web.app/vs_admin_join_meeting.html');
     
     // Open the call window in a new tab
     window.open(callUrl, "_blank");

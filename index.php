@@ -2,23 +2,13 @@
 include('includes/header.php');
 include('includes/navbar.php');
 ?>
-<!-- <header class="bg-dark py-5">
-    <div class=" px-5 mt-5">
-        <div class="row gx-5 align-items-center justify-content-center">
-            <div class="col-lg-12 col-xl-12 col-xxl-6">
-                <div id="map"></div>
-            </div>
-
-        </div>
-    </div>
-</header> -->
 
 <header class="bg-dark py-5">
     <div class=" px-5 mt-5">
         <div class="landing-page-row row gx-5 align-items-center justify-content-center">
             <div class="col-lg-6 col-xl-5 col-xxl-5">
                 <div class="my-5 text-center text-xl-start">
-                    <h1 class="display-4 fw-bolder text-white mb-5">Welcome to Bureau of Fire Protection Taguig</h1>
+                    <h1 class="display-4 fw-bolder text-white mb-5">Welcome to Bureau of Fire Protection Taguig (v1.0.0)</h1>
                     <p class="lead fw-normal text-white-50 mb-5">Your quick action in reporting the fire can save
                         lives and further damage. Stay calm, provide clear details, and know that help is on the way!
                     </p>
@@ -42,6 +32,7 @@ include('includes/navbar.php');
 </header>
 
 <script src="test.js"></script>
+<script src="assets/js/incidents.js"></script>
 <?php
 include('includes/footer.php');
 include('includes/scripts.php');

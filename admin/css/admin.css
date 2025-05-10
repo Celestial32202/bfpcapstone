@@ -48,10 +48,171 @@
     white-space: nowrap; /* Prevent text wrapping */
 }
 
+/* acc-management tables css */
+.datatable-name-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-username-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-position-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-branch-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-contact-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 20px !important; /* removes extra spacing */
+}
+
+
+.datatable-email-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+
+.datatable-verified-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+.datatable-verified-collumn i {
+    margin: 0 4px;
+    font-size: 1.1rem;
+    line-height: normal !important; /* prevent extra spacing */
+    vertical-align: middle;
+}
+.datatable-attempts-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+.datatable-attempts-collumn i {
+    margin: 0 3px;
+    font-size: 1.1rem;
+    line-height: normal !important; /* prevent extra spacing */
+    vertical-align: middle;
+}
+.datatable-locked-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+.datatable-locked-collumn i {
+    margin: 0 4px;
+    font-size: 1.1rem;
+    line-height: normal !important; /* prevent extra spacing */
+    vertical-align: middle;
+}
+.datatable-options-collumn {
+    display: table-cell !important; /* align with how tables behave */
+    vertical-align: middle !important; /* vertical centering */
+    text-align: center !important; /* horizontal centering */
+    padding: 0 8px !important; /* removes extra spacing */
+    white-space: nowrap !important;
+}
+
+.datatable-options-collumn i {
+    margin: 0 4px;
+    font-size: 1.1rem;
+    line-height: normal !important; /* prevent extra spacing */
+    vertical-align: middle;
+}
+
 /* MAP BOX ADMIN INPUT LOCATION */
 #map {
-    width: 100%;       /* Full width of the parent container */
+    width: 100%;
     height: 700px;
+}
+
+@media (min-width: 430px) and (max-width: 1400px) {
+    #map {
+        width: 350px;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 1400px) {
+    #map {
+        width: 270px;
+    }
+}
+
+@media (min-width: 412px) and (max-width: 1400px) {
+    #map {
+        width: 350px;
+    }
+}
+
+@media (min-width: 375px) and (max-width: 1400px) {
+    #map {
+        width: 285px;
+    }
+}
+
+@media (min-width: 414px) and (max-width: 1400px) {
+    #map {
+        width: 320px;
+    }
+}
+
+@media (min-width: 390px) and (max-width: 1400px) {
+    #map {
+        width: 300px;
+    }
+}
+
+/* @media (min-width: 412px) and (max-width: 1400px) {
+    #map {
+        width: 320px;
+    }
+} */
+
+@media (min-width: 768px) and (max-width: 1400px) {
+    #map {
+        width: 570px;
+    }
+}
+
+@media (min-width: 820px) and (max-width: 1400px) {
+    #map {
+        width: 610px;
+    }
 }
 
 .spinner {

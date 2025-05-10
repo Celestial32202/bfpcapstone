@@ -22,7 +22,7 @@ function checkToken() {
 }
 checkToken(); // Call the function
 
-fetch("session-info.php")
+fetch("configs/session-info.php")
     .then(response => response.json())
     .then(data => {
         adminUser = data.admin_user;

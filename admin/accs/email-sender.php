@@ -54,11 +54,27 @@ function sendAccountVerificationEmail($email, $first_name, $password, $token)
 
     $subject = "Account Activation & Password Reset";
     $body = "Hello $first_name,<br><br>
-            <br>$token
+            <br>
              Your account has been created. Your temporary password is: <b>$password</b><br>
              To set your new password, click the link below:<br>
              <a href='$resetLink'>$resetLink</a><br><br>
              This link will expire in 1 hour.";
+
+    return sendEmail($email, $subject, $body);
+}
+
+function sendPasswordResetEmail($email, $token)
+{
+    $baseURL = getBaseURL(); // Gets base URL automatically
+    $resetLink = "$baseURL/reset-password.php?token=" . urlencode($token);
+
+    $subject = "Password Reset Request";
+    $body = "Hello,<br><br>
+             We received a request to reset your password.<br>
+             Click the link below to reset it:<br><br>
+             <a href='$resetLink'>$resetLink</a><br><br>
+             This link will expire in 1 hour.<br><br>
+             If you didn't request this, please ignore this email.";
 
     return sendEmail($email, $subject, $body);
 }

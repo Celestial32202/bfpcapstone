@@ -4,11 +4,12 @@ require realpath(__DIR__ . '/../../vendor/autoload.php');
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use React\EventLoop\Loop;
-use React\Socket\SocketServer;
 use Ratchet\Http\HttpServer;
-use Ratchet\WebSocket\WsServer;
 use Ratchet\Server\IoServer;
+use Ratchet\WebSocket\WsServer;
+use React\Socket\Server as ReactServer;
+use React\Socket\SecureServer;
+use React\EventLoop\Loop;
 
 class VideoCallServer implements MessageComponentInterface
 {
@@ -223,14 +224,6 @@ class VideoCallServer implements MessageComponentInterface
                         }
                     }
                 }
-                // foreach ($this->adminConnections as $userId => $positions) {
-                //     // Send to HigherAdmin first
-                //     if (isset($positions['LowerAdmin'])) {
-                //         foreach ($positions['LowerAdmin'] as $conn) {
-                //             $conn->send(json_encode(['type' => 'updateAdminLoc',]));
-                //         }
-                //     }
-                // }
                 break;
 
             case 'callWindowConnected':
@@ -239,34 +232,27 @@ class VideoCallServer implements MessageComponentInterface
                 echo "✅ Call Window Registered for User $userId\n";
                 break;
 
-            case 'ongoingCalls':
-                $userId = $data['userId'];
-                $status = $data['status'];
-                if (!isset($this->ongoingCalls[$userId])) {
-                    $this->ongoingCalls[$userId] = $status;
-                }
-
-                break;
-            case 'offer':
+            case 'acceptCall':
                 $userId = $data['userId'];
                 echo "📩 Received WebRTC Offer from User $userId\n";
-
+                //sent message to user
                 if (isset($this->callWindows[$userId])) {
                     echo "📤 Forwarding WebRTC Offer to Call Window for User $userId\n";
                     $this->callWindows[$userId]->send(json_encode([
-                        'type' => 'offer',
-                        'offer' => $data['offer'],
+                        'type' => 'acceptedCall',
+                        'meetingId' => $data['meetingId'],
                         'userId' => $userId
                     ]));
                 }
-                if (isset($this->userConnections[$userId])) {
-                    echo "📤 Forwarding WebRTC Offer to Call Window for User $userId\n";
-                    $this->userConnections[$userId]->send(json_encode([
-                        'type' => 'offer',
-                        'offer' => $data['offer'],
-                        'userId' => $userId
-                    ]));
-                }
+                //sent message to call.php
+                // if (isset($this->userConnections[$userId])) {
+                //     echo "📤 Forwarding WebRTC Offer to Call Window for User $userId\n";
+                //     $this->userConnections[$userId]->send(json_encode([
+                //         'type' => 'offer',
+                //         'offer' => $data['offer'],
+                //         'userId' => $userId
+                //     ]));
+                // }
                 break;
             case 'answer':
                 $userId = $data['userId'];
@@ -280,43 +266,30 @@ class VideoCallServer implements MessageComponentInterface
                     ]));
                 }
                 break;
-            case 'candidate':
-                $userId = $data['userId'];
-                $candidate = $data['candidate'];
 
-                echo "📩 Received ICE Candidate from $userId\n";
-                if (isset($this->callWindows[$userId])) {
-                    echo "📤 Forwarding ICE Candidate to Call Window for User $userId\n";
-                    $this->callWindows[$userId]->send(json_encode([
-                        'type' => 'candidate',
-                        'candidate' => $candidate,
-                        'userId' => $userId
-                    ]));
-                }
-                break;
-            case 'callEndedByUser':
-                $userId = $data['userId'];
-                echo "✅ Call ended by user $userId\n";
-                unset($this->ongoingCalls[$userId]);
-                if (isset($this->callWindows[$userId])) {
-                    $this->callWindows[$userId]->send(json_encode([
-                        'type' => 'callEndedByUser', // call ended by user
-                        'userId' => $userId
-                    ]));
-                }
+            // case 'callEndedByUser':
+            //     $userId = $data['userId'];
+            //     echo "✅ Call ended by user $userId\n";
+            //     unset($this->ongoingCalls[$userId]);
+            //     if (isset($this->callWindows[$userId])) {
+            //         $this->callWindows[$userId]->send(json_encode([
+            //             'type' => 'callEndedByUser', // call ended by user
+            //             'userId' => $userId
+            //         ]));
+            //     }
 
-                break;
-            case 'callEndedByAdmin':
-                $userId = $data['userId'];
-                echo "✅ Call ended by admin $userId\n";
-                unset($this->ongoingCalls[$userId]);
-                if (isset($this->userConnections[$userId])) {
-                    $this->userConnections[$userId]->send(json_encode([
-                        'type' => 'callEndedByAdmin',
-                        'userId' => $userId
-                    ]));
-                }
-                break;
+            //     break;
+            // case 'callEndedByAdmin':
+            //     $userId = $data['userId'];
+            //     echo "✅ Call ended by admin $userId\n";
+            //     unset($this->ongoingCalls[$userId]);
+            //     if (isset($this->userConnections[$userId])) {
+            //         $this->userConnections[$userId]->send(json_encode([
+            //             'type' => 'callEndedByAdmin',
+            //             'userId' => $userId
+            //         ]));
+            //     }
+            //     break;
             case 'userConnectionMonitoring':
                 $userId = $data['userId'];
                 if (isset($this->userConnections[$userId]) && $this->userConnections[$userId] !== $from) {
@@ -450,12 +423,6 @@ class VideoCallServer implements MessageComponentInterface
                 if (!isset($this->ongoingCalls[$userId])) {
                     return;
                 }
-                if (isset($this->userConnections[$userId])) {
-                    $this->userConnections[$userId]->send(json_encode([
-                        "type" => "adminCallReconnecting",
-                        'userId' => $userId
-                    ]));
-                }
                 $timer = Loop::addPeriodicTimer(1, function () use ($userId, &$timer, &$elapsedTime) {
                     $elapsedTime++;
                     if (isset($this->callWindows[$userId])) {
@@ -514,19 +481,6 @@ class VideoCallServer implements MessageComponentInterface
                     }
                     $stmt->close();
                     return;
-                }
-
-                if (isset($this->userConnections[$userId])) {
-                    $this->userConnections[$userId]->send(json_encode([
-                        "type" => "userCallReconnecting",
-                        'userId' => $userId
-                    ]));
-                }
-                if (isset($this->callWindows[$userId])) {
-                    $this->callWindows[$userId]->send(json_encode([
-                        "type" => "userCallReconnecting",
-                        'userId' => $userId
-                    ]));
                 }
                 $timer = Loop::addPeriodicTimer(1, function () use ($userId, &$timer, &$elapsedTime) {
                     $elapsedTime++;
@@ -609,32 +563,23 @@ class VideoCallServer implements MessageComponentInterface
 // ✅ Fix: Initialize `$loop` before `addPeriodicTimer`
 $loop = Loop::get();
 
-// ✅ Create the WebSocket server instance
-$serverInstance = new VideoCallServer();
+$tcpServer = new ReactServer('0.0.0.0:8443', $loop);
 
-// ✅ Start a periodic timer to check inactive users
-$loop->addPeriodicTimer(5, function () use ($serverInstance) {
-    $serverInstance->checkInactiveUsers();
-});
+$secureWebSocket = new SecureServer($tcpServer, $loop, [
+    'local_cert' => '/etc/letsencrypt/live/baranggay-magtanggol.online/fullchain.pem',
+    'local_pk' => '/etc/letsencrypt/live/baranggay-magtanggol.online/privkey.pem',
+    'verify_peer' => false,
+    'verify_peer_name' => false,
+    'allow_self_signed' => true,
+]);
 
-$context = [
-    'tls' => [
-        'local_cert'  => 'C:/xampp/apache/conf/ssl.crt/localhost.pem',
-        'local_pk'    => 'C:/xampp/apache/conf/ssl.key/localhost-key.pem',
-        'allow_self_signed' => true,
-        'verify_peer' => false,
-    ]
-];
-
-// $socket = new SocketServer(0.0.0.0:8081', [], $loop);
-$socket = new SocketServer('tls://0.0.0.0:8081', $context, $loop);
 $server = new IoServer(
     new HttpServer(
-        new WsServer($serverInstance)
+        new WsServer(new VideoCallServer())
     ),
-    $socket,
+    $secureWebSocket,
     $loop
 );
 
-echo "🟢 WebSocket Server started on port 8081\n";
+echo "✅ Secure WebSocket server running on wss://baranggay-magtanggol.online:8443\n";
 $loop->run();

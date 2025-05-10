@@ -12,23 +12,6 @@ if (!isset($_SESSION['permissions']['manage_accounts']) && $_SESSION['permission
     header("Location: dashboard.php");
     exit();
 }
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password']) && !isset($_POST['submit_form'])) {
-    $password = $_POST['password'];
-    $requirements = validatePasswordRequirements($password);
-    echo json_encode(['requirements' => array_values($requirements)]);
-    exit;
-}
-function validatePasswordRequirements($password)
-{
-    $requirements = [
-        'length' => strlen($password) >= 8,
-        'number' => preg_match('/\d/', $password),
-        'lowercase' => preg_match('/[a-z]/', $password),
-        'special' => preg_match('/[!$%^&*()\-_=+{};:,.#~`\[\]\\\|"\',?\/@<>]/', $password),
-        'uppercase' => preg_match('/[A-Z]/', $password)
-    ];
-    return $requirements;
-}
 ?>
 <div class="container-fluid ">
     <!-- <div class="col-sm-12 col-xl-6 justify-content-start"></div> -->
@@ -88,8 +71,6 @@ function validatePasswordRequirements($password)
                                                         </option>
                                                         <option value="Command Officer Staff">Command Officer Staff
                                                         </option>
-                                                        <option value="Command Officer Head">Command Officer Head
-                                                        </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -128,7 +109,6 @@ function validatePasswordRequirements($password)
 
 <?php include('includes/footer.php'); ?>
 <script src="js/add-admin.js"></script>
-<?php include('includes/reg-script.php') ?>
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

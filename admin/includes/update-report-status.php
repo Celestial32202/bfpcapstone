@@ -1,6 +1,6 @@
 <?php
 require_once('../../config.php');
-require_once '../server/jwt_handler.php';
+require_once '../configs/jwt_handler.php';
 session_start();
 $session_admin = $_SESSION['admin_user'];
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // Enable error reporting for debugging
@@ -21,12 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $incident_id =  $_POST["incident_id"] ?? "";
 
         if (!empty($incident_id) && !empty($report_status) && !empty($connection_id)) {
-            $updateQuery = "UPDATE incident_report SET report_status = ?, verified_by = ? , verified_at = NOW() WHERE incident_id = ? AND connection_id = ?";
+            $token = JWTHandler::encode($incident_id);
+            $updateQuery = "UPDATE incident_report SET report_status = ?, verified_by = ? , token = ?, verified_at = NOW() WHERE incident_id = ? AND connection_id = ?";
             $stmt = $conn->prepare($updateQuery);
-            $stmt->bind_param("ssss", $report_status, $session_admin, $incident_id, $connection_id);
+            $stmt->bind_param("sssss", $report_status, $session_admin, $token, $incident_id, $connection_id);
 
             if ($stmt->execute()) {
-                $token = JWTHandler::encode($incident_id);
+
                 $response = [
                     "success" => true,
                     "connection_id" => $connection_id,

@@ -87,9 +87,8 @@
         <div id="collapseNews" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Public Posts</h6>
-                <a class="collapse-item" href="#">Post News</a>
-                <a class="collapse-item" href="#">List of Posted News</a>
-                <a class="collapse-item" href="#">Submitted News</a>
+                <a class="collapse-item" href="post-news.php">Post News</a>
+                <a class="collapse-item" href="submitted-news.php">Submitted News</a>
             </div>
         </div>
     </li>
@@ -108,8 +107,9 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Options</h6>
-                <a class="collapse-item" href="#">Manage Admins</a>
-                <a class="collapse-item" href="add-admin-acc.php">Add Account</a>
+                <a class="collapse-item" href="add-admin-acc.php">Add New Account</a>
+                <a class="collapse-item" href="acc-management.php">Manage Accounts</a>
+                <a class="collapse-item" href="deleted-accs.php">Deleted Accounts</a>
             </div>
         </div>
     </li>

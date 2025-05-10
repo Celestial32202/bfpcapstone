@@ -47,8 +47,17 @@ include('includes/navbar.php');
                         </div>
                         <div id="videoContainer" style="display: none;">
                             <h4 class="">Your Video Stream</h4>
-                            <video id="userVideo" autoplay playsinline></video>
-                            <button class="vid-button mt-2 end-vid-button" onclick="endCall()">End Call</button>
+                            <!-- NEW VIDEO STREAM -->
+                            <!-- <div class="container d-flex justify-content-center align-items-center ">
+                                <div class="col-lg-12 col-md-12 col-sm-12" id="video-stream-container"> -->
+                                    <!-- <div style="margin:0px;padding:0px;overflow:hidden"> -->
+                                    <iframe src="https://baranggay-magtanggol-online.web.app/vs_user_video_stream.html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" style="overflow:hidden;height:150%;width:150%" height="150%" width="150%"></iframe>
+                                    <!-- <iframe src="../testing/video-stream/vs_admin_join_meeting.html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" style="overflow:hidden;height:150%;width:150%" height="150%" width="150%"></iframe> -->
+                                    <!-- </div> -->
+                                <!-- </div>
+                            </div> -->
+                            <!-- <video id="userVideo" autoplay playsinline></video> -->
+                            <!-- <button class="vid-button mt-2 end-vid-button" onclick="endCall()">End Call</button> -->
                         </div>
                     </div>
                 </div>
@@ -77,7 +86,7 @@ include('includes/navbar.php');
 
                         <div class="text-center"><button type="submit" name="submit_form">Send Message</button></div>
                     </form>
-                </div><!-- End  Form -->
+                </div>
             </div>
         </div>
         <div class="modal fade" id="redirectModal" tabindex="-1" aria-hidden="true">
@@ -96,8 +105,17 @@ include('includes/navbar.php');
     </div>
 </section>
 
+
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-storage.js"></script>
+
+<script src="assets/js/global.js"></script>
+<script src="assets/js/config.js"></script>
 <script src="assets/js/user-request.js"> </script>
+
 <?php
-include('includes/footer.php');
-include('includes/scripts.php');
+// include('includes/footer.php');
+// include('includes/scripts.php');
 ?>

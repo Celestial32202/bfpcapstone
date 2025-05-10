@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../../config.php';
-include '../server/jwt_handler.php'; // Include the JWT handler class
+include '../configs/jwt_handler.php'; // Include the JWT handler class
 
 // Get the incident token (for example, passed as a query parameter or POST data)
 $incidentToken = $_GET['incidentToken'] ?? null; // Adjust this based on how the token is passed
